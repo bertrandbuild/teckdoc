@@ -10,12 +10,12 @@
   },
   "workspaces": [
     "landing",
-    "app"
+    "smart-search"
   ],
   "scripts": {
     "dev": "concurrently -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm:dev:*\"",
     "dev:landing": "npm run dev --workspace=landing",
-    "dev:app": "npm run dev --workspace=app",
+    "dev:smart-search": "npm run dev --workspace=smart-search",
     "build": "npm run build --workspaces",
     "start": "npm run start --workspaces",
     "lint": "npm run lint --workspaces"
@@ -30,14 +30,22 @@
     "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "prettier": "^2.8.8",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.2.5",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@typescript-eslint/parser": "^5.61.0"
   },
   "dependencies": {
     "next": "14.2.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "next-themes": "^0.2.1",
+    "tailwind-merge": "^1.13.2",
+    "tailwindcss-animate": "^1.0.6"
   }
 }
