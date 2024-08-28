@@ -6,13 +6,12 @@ export const siteConfig = {
     "Welcome to the documentation page.",
   mainNav: [
     {
-      title: "Home",
-      href: "/",
+      title: "Documentation",
+      href: "/docs/getting-started/introduction",
     },
   ],
   links: {
     twitter: "https://twitter.com/",
     github: "https://github.com/YohanGH",
-    docs: "https://www.YohanGH.github.io",
   },
 }
