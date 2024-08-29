@@ -1,27 +1,18 @@
-import "@/styles/globals.css"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import { GeistMono } from "geist/font/mono"
+import { GeistSans } from "geist/font/sans"
 
-import { siteConfig } from "@/config/site"
-import { fontSans } from "@/lib/fonts"
-import { cn } from "@/lib/utils"
-import { SiteHeader } from "@/components/site-header"
+import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 
+import "./globals.css"
+
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
+  title: "Docs stater template",
+  metadataBase: new URL("https://docstemplate.vercel.app/"),
+  description:
+    "This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.",
 }
 
 interface RootLayoutProps {
@@ -34,16 +25,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <head />
         <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
+          className={`${GeistSans.variable} ${GeistMono.variable} font-regular`}
+          suppressHydrationWarning
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-            </div>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
           </ThemeProvider>
         </body>
       </html>

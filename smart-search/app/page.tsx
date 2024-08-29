@@ -1,30 +1,25 @@
+import Search from "@/components/search/search"
 import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <div className="flex min-h-[88vh] flex-col items-center justify-center px-2 py-8 text-center sm:min-h-[91vh]">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-        Documentation <br className="hidden sm:inline" />
-        Welcome to the documentation page.
+        <h1 className="mb-4 text-3xl font-bold sm:text-7xl">
+          Welcome to the documentation page.
         </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Documentation.
-        </p>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-row items-center gap-5">
         <Link
+          href="https://github.com/bertrandbuild/template-next-web3"
           target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
+          className="mb-5 flex items-center gap-2 underline underline-offset-4 sm:text-lg"
         >
-          GitHub
+          Follow along on GitHub{" "}
         </Link>
       </div>
-    </section>
+      {/* TODO : Open modal for test */}
+        <Search />
+    </div>
   )
 }
