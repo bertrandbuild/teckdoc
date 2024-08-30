@@ -7,7 +7,7 @@ import "./interfaces/IOracle.sol";
 
 // @title ChatSearch
 // @notice This contract interacts with teeML oracle to handle multi-modal chat interactions using the OpenAI model.
-contract ChatSearch {
+contract ChatSearchAI {
   struct ChatRun {
     address owner;
     IOracle.Message[] messages;
@@ -25,6 +25,12 @@ contract ChatSearch {
 
   // @notice Event emitted when a new chat is created
   event ChatCreated(address indexed owner, uint indexed chatId);
+
+  // @notice Event emitted when a new message is added
+  event MessageAdded(uint indexed chatId, string role, string content);
+
+  // @notice Event emitted when a response is received from the oracle
+  event OracleResponseReceived(uint indexed chatId, string response);
 
   // @notice Configuration for the OpenAI request
   IOracle.OpenAiRequest private config;
@@ -91,6 +97,7 @@ contract ChatSearch {
 
     IOracle(oracleAddress).createLlmCall(currentId);
     emit ChatCreated(msg.sender, currentId);
+    emit MessageAdded(currentId, "user", message);
 
     return currentId;
   }
@@ -112,6 +119,7 @@ contract ChatSearch {
     run.messages.push(newMessage);
     run.messagesCount++;
     IOracle(oracleAddress).createLlmCall(runId);
+    emit MessageAdded(runId, "user", message);
   }
 
   // @notice Creates a new message structure with the specified role and content
@@ -186,5 +194,8 @@ contract ChatSearch {
     );
     run.messages.push(newMessage);
     run.messagesCount++;
+
+    emit OracleResponseReceived(runId, response);
+    emit MessageAdded(runId, "assistant", response);
   }
 }
