@@ -30,7 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="sm:container mx-auto w-[85vw] h-auto">{children}</main>
             <Footer />
           </ThemeProvider>
         </body>
