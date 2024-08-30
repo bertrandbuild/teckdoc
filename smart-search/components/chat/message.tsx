@@ -57,8 +57,6 @@ const ManagerMessage = (props: ChatMessage) => {
 const Message = (props: MessageProps) => {
   const { role } = props.message
   const isUser = role === "user"
-
-  console.log("Message props:", props);
   
   return (
     <div className="message w-full">

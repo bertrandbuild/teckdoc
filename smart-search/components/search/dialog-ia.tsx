@@ -10,14 +10,11 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   const { startChat, requestHash, llmResult, setLlmResult } = useChat()
   const [loading, setLoading] = useState(false)
 
-  console.log("result for llresult:", llmResult)
-
   const handleChatStart = useCallback(() => {
     if (searchedInput) {
       setLoading(true)
       startChat(searchedInput)
         .then((response: ChatMessage) => {
-          console.log("response from startChat:", response);
           setLlmResult(response)
           setLoading(false)
         })
@@ -29,7 +26,6 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   }, [searchedInput, setLlmResult, startChat])
 
   useEffect(() => {
-    console.log("llmResult updated:", llmResult);
   }, [llmResult]);
 
   return (

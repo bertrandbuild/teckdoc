@@ -54,29 +54,21 @@ const useChat = () => {
         gasLimit: gasLimit,
       })
 
-      console.log("Transaction sent:", tx);
       const receipt = await tx.wait()
       setRequestHash(receipt.hash)
       const chatId = getChatId(receipt, contract)
-      console.log("Transaction receipt:", receipt);
 
       if (receipt && receipt.status && chatId) {
-        console.log("Chat started with ID:", chatId);
 
         while (true) {
-          console.log('Fetching message history for chat ID:', chatId);
           const newMessages: ChatMessage[] = await contract.getMessageHistoryContents(
             chatId
           )
-          console.log('New messages fetched:', newMessages);
 
           if (newMessages && newMessages.length > 0) {
             const lastMessage = newMessages.at(-1)
 
             if (lastMessage && lastMessage.role === "assistant") {
-              // const assistantMessage = newMessages.find(
-              //   (msg) => msg.role === "assistant"
-              // )
               let content: string | undefined;
               for (const message of newMessages) {
                 const target_copy = JSON.parse(JSON.stringify(message));
@@ -97,18 +89,6 @@ const useChat = () => {
             }
           }
           await new Promise((resolve) => setTimeout(resolve, 2000));
-
-          //     if (assistantMessage) {
-          //       console.log("Assistant message received:", assistantMessage.content);
-          //       return {
-          //         content: assistantMessage.content,
-          //         role: "assistant",
-          //         transactionHash: receipt.hash,
-          //       }
-          //     }
-          //   }
-          // }
-          // await new Promise((resolve) => setTimeout(resolve, 2000))
         }
       }
     } catch (error: any) {
