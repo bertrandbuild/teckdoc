@@ -7,6 +7,8 @@ import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import "./globals.css"
+import { Web3AuthProvider } from "@/components/web3auth/web3auth-context"
+import { GlobalProvider } from "@/context/globalContext"
 
 export const metadata: Metadata = {
   title: "Docs stater template",
@@ -29,9 +31,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           suppressHydrationWarning
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Navbar />
-            <main className="sm:container mx-auto w-[85vw] h-auto">{children}</main>
-            <Footer />
+            <GlobalProvider>
+              <Web3AuthProvider>
+                <Navbar />
+                <main className="mx-auto h-auto w-[85vw] sm:container">{children}</main>
+                <Footer />
+              </Web3AuthProvider>
+            </GlobalProvider>
           </ThemeProvider>
         </body>
       </html>

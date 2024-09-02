@@ -1,6 +1,6 @@
 import IaLogo from "../../public/ia.gif"
 import Image from "next/image"
-import Web3AuthLogin from "../web3auth/web3-auth-login"
+import Web3AuthLogin from "@/components/web3auth/web3auth"
 
 export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   return (

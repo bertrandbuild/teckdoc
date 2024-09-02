@@ -12,20 +12,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import Anchor from "../anchor";
 import { advanceSearch, cn } from "@/lib/utils";
 import DialogIA from "./dialog-ia";
+import { GlobalContext } from "@/context/globalContext";
 
 export default function Search() {
   const [searchedInput, setSearchedInput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const { isSearchOpen, updateContext } = useContext(GlobalContext);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === "k") {
         event.preventDefault();
-        setIsOpen(true);
+        updateContext("isSearchOpen", true);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -43,10 +44,10 @@ export default function Search() {
   return (
     <div>
       <Dialog
-        open={isOpen}
+        open={isSearchOpen}
         onOpenChange={(open) => {
           if (!open) setSearchedInput("");
-          setIsOpen(open);
+          updateContext("isSearchOpen", open);
         }}
       >
         <DialogTrigger asChild>
