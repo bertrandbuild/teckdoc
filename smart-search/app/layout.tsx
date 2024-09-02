@@ -11,10 +11,10 @@ import { Web3AuthProvider } from "@/components/web3auth/web3auth-context"
 import { GlobalProvider } from "@/context/globalContext"
 
 export const metadata: Metadata = {
-  title: "Docs stater template",
+  title: "TeckDoc",
   metadataBase: new URL("https://docstemplate.vercel.app/"),
   description:
-    "This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.",
+    "TeckDoc is a web3 documentation with token gated AI",
 }
 
 interface RootLayoutProps {

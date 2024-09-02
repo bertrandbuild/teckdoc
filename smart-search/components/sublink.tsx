@@ -42,7 +42,7 @@ export default function SubLink({
       Comp
     )
   ) : (
-    <h4 className="font-medium sm:text-sm text-primary">{title}</h4>
+    <h4 className="text-primary font-medium sm:text-sm">{title}</h4>
   );
 
   if (!items) {
@@ -50,20 +50,20 @@ export default function SubLink({
   }
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className="flex w-full flex-col gap-1">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="flex items-center gap-2">
           {titleOrLink}
           <CollapsibleTrigger asChild>
             <Button
-              className="ml-auto mr-3.5 h-6 w-6"
+              className="ml-auto mr-3.5 size-6"
               variant="link"
               size="icon"
             >
               {!isOpen ? (
-                <ChevronRight className="h-[0.9rem] w-[0.9rem]" />
+                <ChevronRight className="size-[0.9rem]" />
               ) : (
-                <ChevronDown className="h-[0.9rem] w-[0.9rem]" />
+                <ChevronDown className="size-[0.9rem]" />
               )}
               <span className="sr-only">Toggle</span>
             </Button>
@@ -72,8 +72,8 @@ export default function SubLink({
         <CollapsibleContent>
           <div
             className={cn(
-              "flex flex-col items-start sm:text-sm dark:text-neutral-300/85 text-neutral-800 ml-0.5 mt-2.5 gap-3",
-              level > 0 && "pl-4 border-l ml-1"
+              "ml-0.5 mt-2.5 flex flex-col items-start gap-3 text-neutral-800 sm:text-sm dark:text-neutral-300/85",
+              level > 0 && "ml-1 border-l pl-4"
             )}
           >
             {items?.map((innerLink) => {
