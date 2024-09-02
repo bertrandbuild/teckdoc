@@ -74,7 +74,6 @@ export default function Search() {
               className="h-14 px-4 bg-transparent border-b text-[15px] outline-none"
             />
           </DialogHeader>
-          {/* TODO : HERE MODAL IA */}
           <DialogIA searchedInput={searchedInput} />
           {filteredResults.length == 0 && searchedInput && (
             <p className="text-muted-foreground mx-auto mt-2 text-sm">
