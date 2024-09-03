@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/classnames-order */
 "use client";
 
 import { CommandIcon, FileTextIcon, SearchIcon } from "lucide-react";
@@ -12,20 +11,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import Anchor from "../anchor";
 import { advanceSearch, cn } from "@/lib/utils";
 import DialogIA from "./dialog-ia";
+import { GlobalContext } from "@/context/globalContext";
 
 export default function Search() {
   const [searchedInput, setSearchedInput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const { isSearchOpen, updateContext } = useContext(GlobalContext);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === "k") {
         event.preventDefault();
-        setIsOpen(true);
+        updateContext("isSearchOpen", true);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -33,7 +33,7 @@ export default function Search() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [updateContext]);
 
   const filteredResults = useMemo(
     () => advanceSearch(searchedInput.trim()),
@@ -43,27 +43,27 @@ export default function Search() {
   return (
     <div>
       <Dialog
-        open={isOpen}
+        open={isSearchOpen}
         onOpenChange={(open) => {
           if (!open) setSearchedInput("");
-          setIsOpen(open);
+          updateContext("isSearchOpen", open);
         }}
       >
         <DialogTrigger asChild>
-          <div className="relative flex-1 max-w-md cursor-pointer">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500 dark:text-neutral-400" />
+          <div className="relative max-w-md flex-1 cursor-pointer">
+            <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500 dark:text-neutral-400" />
             <Input
-              className="w-full rounded-md bg-muted border h-9 pl-10 pr-4 text-sm shadow-sm "
+              className="bg-muted h-9 w-full rounded-md border pl-10 pr-4 text-sm shadow-sm "
               placeholder="Search documentation..."
               type="search"
             />
-            <div className="sm:flex hidden absolute top-1/2 -translate-y-1/2 right-2 text-xs font-medium font-mono items-center gap-0.5 dark:bg-neutral-700 bg-zinc-200 p-1 rounded-sm">
+            <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded-sm bg-zinc-200 p-1 font-mono text-xs font-medium sm:flex dark:bg-neutral-700">
               <CommandIcon className="size-3" />
               <span>k</span>
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="p-0 max-w-[650px] sm:top-[38%] top-[45%]">
+        <DialogContent className="top-[45%] max-w-[650px] p-0 sm:top-[38%]">
           <DialogTitle className="sr-only">Search</DialogTitle>
           <DialogHeader>
             <input
@@ -71,10 +71,9 @@ export default function Search() {
               onChange={(e) => setSearchedInput(e.target.value)}
               placeholder="Type something to search..."
               autoFocus
-              className="h-14 px-4 bg-transparent border-b text-[15px] outline-none"
+              className="h-14 border-b bg-transparent px-4 text-[15px] outline-none"
             />
           </DialogHeader>
-          {/* TODO : HERE MODAL IA */}
           <DialogIA searchedInput={searchedInput} />
           {filteredResults.length == 0 && searchedInput && (
             <p className="text-muted-foreground mx-auto mt-2 text-sm">
@@ -83,7 +82,7 @@ export default function Search() {
             </p>
           )}
           <ScrollArea className="max-h-[350px]">
-            <div className="flex flex-col items-start overflow-y-auto sm:px-3 px-1 pb-4">
+            <div className="flex flex-col items-start overflow-y-auto px-1 pb-4 sm:px-3">
               {filteredResults.map((item) => {
                 const level = (item.href.split("/").slice(1).length -
                   1) as keyof typeof paddingMap;
@@ -93,14 +92,14 @@ export default function Search() {
                   <DialogClose key={item.href} asChild>
                     <Anchor
                       className={cn(
-                        "dark:hover:bg-neutral-900 hover:bg-neutral-100 w-full px-3 rounded-sm text-[15px] flex items-center gap-2.5",
+                        "flex w-full items-center gap-2.5 rounded-sm px-3 text-[15px] hover:bg-neutral-100 dark:hover:bg-neutral-900",
                         paddingClass
                       )}
                       href={`/docs${item.href}`}
                     >
                       <div
                         className={cn(
-                          "flex items-center w-fit h-full py-3 gap-1.5",
+                          "flex h-full w-fit items-center gap-1.5 py-3",
                           level > 1 && "border-l pl-4"
                         )}
                       >
