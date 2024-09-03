@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import { HeartIcon, HexagonIcon, TriangleIcon } from "lucide-react";
+import { HexagonIcon } from "lucide-react";
 
 export function Footer() {
   return (
