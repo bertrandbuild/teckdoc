@@ -23,7 +23,7 @@ $ forge test
 ### Deploy
 
 ```shell
-forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args 0x68EC9556830AD097D661Df2557FBCeC166a0A075
+forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args 0x0352b37E5680E324E804B5A6e1AddF0A064E201D
 ```
 
 ### Generate ABIs

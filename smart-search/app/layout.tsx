@@ -5,8 +5,11 @@ import { GeistSans } from "geist/font/sans"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Theme } from '@radix-ui/themes';
 
 import "./globals.css"
+import '@radix-ui/themes/styles.css';
+
 import { Web3AuthProvider } from "@/components/web3auth/web3auth-context"
 import { GlobalProvider } from "@/context/globalContext"
 
@@ -31,13 +34,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
           suppressHydrationWarning
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <GlobalProvider>
-              <Web3AuthProvider>
-                <Navbar />
-                <main className="mx-auto h-auto w-[85vw] sm:container">{children}</main>
-                <Footer />
-              </Web3AuthProvider>
-            </GlobalProvider>
+            <Theme>
+              <GlobalProvider>
+                <Web3AuthProvider>
+                  <Navbar />
+                  <main className="mx-auto h-auto w-[85vw] sm:container">{children}</main>
+                  <Footer />
+                </Web3AuthProvider>
+              </GlobalProvider>
+            </Theme>
           </ThemeProvider>
         </body>
       </html>

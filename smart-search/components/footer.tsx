@@ -16,47 +16,30 @@ export function Footer() {
             >
               YohanGH
             </Link>
+            &
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/bertrandbuild"
             >
-              bertrandbuild
+              BertrandBuild
             </Link>
+            - Inspired by{" "}
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/nisabmohd"
             >
-              Inspired by documentation from nisabmohd
+              Nisabmohd
             </Link>
-            . The source code is available on{" "}
+            - The source code is available on{" "}
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/bertrandbuild/template-next-web3"
             >
               GitHub
             </Link>
-            .
           </p>
-        </div>
-
-        <div className="hidden items-center gap-4 md:flex">
-          <FooterButtons />
         </div>
       </div>
     </footer>
-  );
-}
-
-export function FooterButtons() {
-  return (
-    <>
-      <Link
-        href="#"
-        className={buttonVariants({ variant: "outline", size: "sm" })}
-      >
-        <TriangleIcon className="text-primary mr-2 h-[0.8rem] w-4 fill-current" />
-        Deploy
-      </Link>
-    </>
   );
 }
