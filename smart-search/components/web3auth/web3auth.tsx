@@ -4,10 +4,11 @@ import { useContext } from "react";
 import { useWeb3Auth } from "./web3auth-context";
 import RPC from "./ethersRPC";
 import { GlobalContext } from "@/context/globalContext";
+import { IS_ADMIN, MAX_REQUESTS_LOGGED, MAX_REQUESTS_NOT_LOGGED } from "@/config/constant";
 
 export default function Web3AuthLogin() {
   const { provider, setProvider, web3auth, isLoggedIn, setIsLoggedIn } = useWeb3Auth();
-  const { updateContext } = useContext(GlobalContext);
+  const { updateContext, numberRequests } = useContext(GlobalContext);
   if (!web3auth) {
     return null;
   }
@@ -69,10 +70,9 @@ export default function Web3AuthLogin() {
     console.log(transactionReceipt);
   };
 
-  const loggedInView = (
+  const adminView = (
     <>
-      <div className="flex-container">
-        <div>
+      <div>
           <button onClick={getUserInfo} className="card">
             Get User Info
           </button>
@@ -97,6 +97,16 @@ export default function Web3AuthLogin() {
             Send Transaction
           </button>
         </div>
+    </>
+  );
+
+  const loggedInView = (
+    <>
+      <div className="flex-container">
+        <div className="text-sm text-gray-500">
+          Number of requests: {numberRequests} / {MAX_REQUESTS_LOGGED}
+        </div>
+        {IS_ADMIN && adminView}
         <div>
           <button onClick={logout} className="card">
             Log Out
@@ -107,9 +117,14 @@ export default function Web3AuthLogin() {
   );
 
   const unloggedInView = (
-    <button onClick={login} className="card">
-      Login
-    </button>
+    <>
+      <div className="text-sm text-gray-500">
+        Number of requests: {numberRequests} / {MAX_REQUESTS_NOT_LOGGED}
+      </div>
+      <button onClick={login} className="card">
+        Login for more free requests
+      </button>
+    </>
   );
 
   return (

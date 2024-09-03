@@ -6,17 +6,20 @@ import React, { createContext, useState, useEffect } from "react";
 // Specifies the structure of the global context
 interface IGlobalContextType {
   isSearchOpen: boolean;
+  numberRequests: number;
   updateContext: (key: string, value: unknown) => void;
 }
 
 // This is the initial state of the global context (if not loaded from localStorage)
 const initialLocalStorageConfig = {
   isSearchOpen: false,
+  numberRequests: 0,
 };
 
 // Default context values
 const defaultContext: IGlobalContextType = {
   isSearchOpen: false,
+  numberRequests: 0,
   updateContext: () => {},
 };
 
