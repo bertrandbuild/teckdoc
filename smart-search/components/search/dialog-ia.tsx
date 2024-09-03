@@ -11,6 +11,8 @@ import { GlobalContext } from "@/context/globalContext"
 import { MAX_REQUESTS_LOGGED, MAX_REQUESTS_NOT_LOGGED } from "@/config/constant"
 import { useWeb3Auth } from "../web3auth/web3auth-context"
 import toast from "react-hot-toast";
+import { Badge } from '@radix-ui/themes';
+import { useRouter } from 'next/navigation'
 
 export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   const { startChat, requestHash, llmResult, setLlmResult } = useChat()
@@ -18,6 +20,16 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   const { isLoggedIn } = useWeb3Auth()
   const isOverLimit = (!isLoggedIn && numberRequests >= MAX_REQUESTS_NOT_LOGGED) || (isLoggedIn && numberRequests >= MAX_REQUESTS_LOGGED)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const [items, setItems] = useState<any[]>([
+    {
+      href: "/getting-started/installation",
+      title: "Installation"
+    },{
+      href: "/getting-started/quick-start-guide",
+      title: "Quick Start Guide"
+    },
+  ])
 
   const handleChatStart = () => {
     if (isOverLimit) {
@@ -94,6 +106,21 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
         )}
         <div className="mt-2">
           {llmResult && <Message message={llmResult} />}
+          {llmResult && <div className="mt-2 flex flex-row">
+            {items && items.map((item) => (
+              <Badge
+                color="indigo" radius="large"
+                className="cursor-pointer mr-2 p-2 hover:bg-indigo-100"
+                style={{ padding: '1px 5px', borderRadius: '5px' }}
+                onClick={() => {
+                  updateContext("isSearchOpen", false);
+                  router.push(`/docs/${item.href}`);
+                }}
+              >
+                {item.title}
+              </Badge>
+            ))}
+          </div>}
         </div>
       </div>
     </>
