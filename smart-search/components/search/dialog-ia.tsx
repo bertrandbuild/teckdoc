@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
+import Web3AuthLogin from "@/components/web3auth/web3auth"
 
 import IaLogo from "../../public/ia.gif"
 import useChat from "../chat/hook/useChat"
@@ -35,7 +36,7 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
         disabled={loading}
         className="flex cursor-pointer select-none items-center justify-between gap-2 rounded-xl px-4 py-2 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-800"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex w-full items-center justify-between gap-4">
           <Image
             src={IaLogo}
             alt="Robot"
@@ -66,6 +67,14 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
         </div>
       )}
       {llmResult && <Message message={llmResult} />}
-    </>
+    
+
+        <div className="ml-auto">
+          <Web3AuthLogin />
+        </div>
+      </div>
+    </div>
+            
+   </>
   )
 }
