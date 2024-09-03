@@ -61,7 +61,7 @@ const useChat = () => {
       if (receipt && receipt.status && chatId) {
 
         while (true) {
-          const newMessages: ChatMessage[] = await contract.getMessageHistoryContents(
+          const newMessages: ChatMessage[] = await contract.getMessageHistory(
             chatId
           )
 
@@ -73,7 +73,7 @@ const useChat = () => {
               for (const message of newMessages) {
                 const target_copy = JSON.parse(JSON.stringify(message));
                 if (target_copy[0] === "assistant") {
-                  if (process.env.IS_DEV) {
+                  if (process.env.NEXT_PUBLIC_IS_DEV) {
                     console.log(target_copy);
                     console.log(target_copy[1][0][1]);
                   }
