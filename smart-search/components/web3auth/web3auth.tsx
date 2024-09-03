@@ -73,58 +73,54 @@ export default function Web3AuthLogin() {
   const adminView = (
     <>
       <div>
-          <button onClick={getUserInfo} className="card">
+          <div onClick={getUserInfo} className="card">
             Get User Info
-          </button>
+          </div>
         </div>
         <div>
-          <button onClick={getAccounts} className="card">
+          <div onClick={getAccounts} className="card">
             Get Accounts
-          </button>
+          </div>
         </div>
         <div>
-          <button onClick={getBalance} className="card">
+          <div onClick={getBalance} className="card">
             Get Balance
-          </button>
+          </div>
         </div>
         <div>
-          <button onClick={signMessage} className="card">
+          <div onClick={signMessage} className="card">
             Sign Message
-          </button>
+          </div>
         </div>
         <div>
-          <button onClick={sendTransaction} className="card">
+          <div onClick={sendTransaction} className="card">
             Send Transaction
-          </button>
+          </div>
         </div>
     </>
   );
 
   const loggedInView = (
-    <>
-      <div className="flex-container">
-        <div className="text-sm text-gray-500">
-          Number of requests: {numberRequests} / {MAX_REQUESTS_LOGGED}
-        </div>
-        {IS_ADMIN && adminView}
-        <div>
-          <button onClick={logout} className="card">
-            Log Out
-          </button>
-        </div>
+    <div className="flex-container flex flex-row items-center justify-between">
+      <div className="mr-4 text-sm text-gray-500">
+        Number of requests: {numberRequests} / {MAX_REQUESTS_LOGGED}
       </div>
-    </>
+      <span onClick={logout} className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+        Log Out
+      </span>
+      {IS_ADMIN && adminView}
+    </div>
   );
 
   const unloggedInView = (
-    <>
-      <div className="text-sm text-gray-500">
+    <div className="flex-container flex flex-row items-center justify-between">
+      <div className="mr-4 text-sm text-gray-500">
         Number of requests: {numberRequests} / {MAX_REQUESTS_NOT_LOGGED}
       </div>
-      <button onClick={login} className="card">
-        Login for more free requests
-      </button>
-    </>
+      <span onClick={login} className="cursor-pointer text-sm text-gray-500 underline hover:text-gray-700">
+        Login for more free AI requests
+      </span>
+    </div>
   );
 
   return (
