@@ -17,7 +17,7 @@ export default function IndexPage() {
     <div className="flex min-h-[88vh] flex-col items-center justify-center px-2 py-8 text-center sm:min-h-[91vh]">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
         <h1 className="mb-4 text-3xl font-bold sm:text-7xl">
-          Welcome to the documentation page.
+          The web3 documentation with token gated AI
         </h1>
       </div>
       <div className="flex flex-row items-center gap-5">
@@ -26,12 +26,12 @@ export default function IndexPage() {
           target="_blank"
           className="mb-5 flex items-center gap-2 underline underline-offset-4 sm:text-lg"
         >
-          Follow along on GitHub{" "}
+          Checkout the code on GitHub{" "}
         </Link>
       </div>
       <Button onClick={handleOpenSearch}>
         <SearchIcon className="mr-2 size-4" />
-        Open Search
+        Try it now
       </Button>
     </div>
   )

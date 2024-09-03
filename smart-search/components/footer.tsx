@@ -39,25 +39,7 @@ export function Footer() {
             </Link>
           </p>
         </div>
-
-        <div className="hidden items-center gap-4 md:flex">
-          <FooterButtons />
-        </div>
       </div>
     </footer>
-  );
-}
-
-export function FooterButtons() {
-  return (
-    <>
-      <Link
-        href="#"
-        className={buttonVariants({ variant: "outline", size: "sm" })}
-      >
-        <TriangleIcon className="text-primary mr-2 h-[0.8rem] w-4 fill-current" />
-        Deploy
-      </Link>
-    </>
   );
 }
