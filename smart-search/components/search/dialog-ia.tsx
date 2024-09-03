@@ -57,6 +57,9 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
               Use AI to answer your question
             </span>
           </div>
+          <div className="ml-auto">
+            <Web3AuthLogin />
+          </div>
         </div>
       </button>
       {requestHash && (
@@ -67,14 +70,6 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
         </div>
       )}
       {llmResult && <Message message={llmResult} />}
-    
-
-        <div className="ml-auto">
-          <Web3AuthLogin />
-        </div>
-      </div>
-    </div>
-            
-   </>
+    </>
   )
 }
