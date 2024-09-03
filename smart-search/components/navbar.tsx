@@ -36,12 +36,12 @@ export function Navbar() {
             <Search />
             <div className="flex">
               <Link
-                href="https://github.com/bertrandbuild/template-next-web3"
+                href="https://github.com/bertrandbuild/teckdoc"
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
                 <GithubIcon className="size-[1.1rem]" />
               </Link>
-              <Link
+              {/* <Link
                 href="#"
                 className={buttonVariants({
                   variant: "ghost",
@@ -49,7 +49,7 @@ export function Navbar() {
                 })}
               >
                 <TwitterIcon className="size-[1.1rem]" />
-              </Link>
+              </Link> */}
               <ModeToggle />
             </div>
           </div>

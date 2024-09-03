@@ -16,26 +16,27 @@ export function Footer() {
             >
               YohanGH
             </Link>
+            &
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/bertrandbuild"
             >
-              bertrandbuild
+              BertrandBuild
             </Link>
+            - Inspired by{" "}
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/nisabmohd"
             >
-              Inspired by documentation from nisabmohd
+              Nisabmohd
             </Link>
-            . The source code is available on{" "}
+            - The source code is available on{" "}
             <Link
               className="px-1 underline underline-offset-2"
               href="https://github.com/bertrandbuild/template-next-web3"
             >
               GitHub
             </Link>
-            .
           </p>
         </div>
 
