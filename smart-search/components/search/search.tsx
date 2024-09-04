@@ -54,7 +54,7 @@ export default function Search() {
             <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500 dark:text-neutral-400" />
             <Input
               className="bg-muted h-9 w-full rounded-md border pl-10 pr-4 text-sm shadow-sm "
-              placeholder="Search documentation..."
+              placeholder="Search the doc..."
               type="search"
             />
             <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded-sm bg-zinc-200 p-1 font-mono text-xs font-medium sm:flex dark:bg-neutral-700">

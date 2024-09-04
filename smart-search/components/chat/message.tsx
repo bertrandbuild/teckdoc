@@ -59,8 +59,8 @@ const Message = (props: MessageProps) => {
   const isUser = role === "user"
   
   return (
-    <div className="message w-full">
-      <div className={`text-secondary ${styles["markdown-container"]}`}>
+    <div className="message h-[25vh] w-full overflow-y-scroll">
+      <div className={`text-primary ${styles["markdown-container"]}`}>
         {isUser ? (
           <MessageUser {...props.message} />
         ) : (

@@ -5,8 +5,8 @@ pragma solidity ^0.8.9;
 // import "hardhat/console.sol";
 import "./interfaces/IOracle.sol";
 
-// @title ChatSearch
-// @notice This contract interacts with teeML oracle to handle multi-modal chat interactions using the OpenAI model.
+// @title ChatSearchAI
+// @notice This contract handles chat interactions and integrates with teeML oracle for LLM and knowledge base queries.
 contract ChatSearchAI {
   struct ChatRun {
     address owner;
@@ -20,6 +20,9 @@ contract ChatSearchAI {
   // @notice Address of the oracle contract
   address public oracleAddress;
 
+  // @notice CID of the knowledge base
+  string public knowledgeBase;
+
   // @notice Event emitted when the oracle address is updated
   event OracleAddressUpdated(address indexed newOracleAddress);
 
@@ -29,9 +32,6 @@ contract ChatSearchAI {
   // @notice Event emitted when a new message is added
   event MessageAdded(uint indexed chatId, string role, string content);
 
-  // @notice Event emitted when a response is received from the oracle
-  event OracleResponseReceived(uint indexed chatId, string response);
-
   // @notice Configuration for the OpenAI request
   IOracle.OpenAiRequest private config;
 
@@ -39,11 +39,13 @@ contract ChatSearchAI {
   mapping(uint => ChatRun) public chatRuns;
   uint private chatRunsCount;
 
-  // @notice Initializes the contract with the initial oracle address and default configuration for OpenAI requests
+  // @notice Initializes the contract with the initial oracle address, default configuration and knowledge base
   // @param initialOracleAddress The address of the oracle contract to be used initially
-  constructor(address initialOracleAddress) {
+  // @param knowledgeBaseCID CID of the initial knowledge base
+  constructor(address initialOracleAddress, string memory knowledgeBaseCID) {
     owner = msg.sender;
     oracleAddress = initialOracleAddress;
+    knowledgeBase = knowledgeBaseCID;
     chatRunsCount = 0;
 
     config = IOracle.OpenAiRequest({
@@ -71,11 +73,12 @@ contract ChatSearchAI {
 
   // @notice Ensures the caller is the oracle contract
   modifier onlyOracle() {
-    require(msg.sender == oracleAddress, "Call is not oracle");
+    require(msg.sender == oracleAddress, "Caller is not the oracle");
     _;
   }
 
-  // @notice newOracleAddress The new oracle address to set
+  // @notice Sets a new oracle address
+  // @param newOracleAddress The new oracle address
   function setOracleAddress(address newOracleAddress) public onlyOwner {
     oracleAddress = newOracleAddress;
     emit OracleAddressUpdated(newOracleAddress);
@@ -95,7 +98,18 @@ contract ChatSearchAI {
     uint currentId = chatRunsCount;
     chatRunsCount = chatRunsCount + 1;
 
-    IOracle(oracleAddress).createLlmCall(currentId);
+    // If there is a knowledge base, create a knowledge base query
+    if (bytes(knowledgeBase).length > 0) {
+      IOracle(oracleAddress).createKnowledgeBaseQuery(
+        currentId,
+        knowledgeBase,
+        message,
+        3
+      );
+    } else {
+      // Otherwise, create an LLM call
+      IOracle(oracleAddress).createLlmCall(currentId);
+    }
     emit ChatCreated(msg.sender, currentId);
     emit MessageAdded(currentId, "user", message);
 
@@ -108,8 +122,7 @@ contract ChatSearchAI {
   function addMessage(string memory message, uint runId) public {
     ChatRun storage run = chatRuns[runId];
     require(
-      run.messagesCount > 0 &&
-        keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) ==
+      keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) ==
         keccak256(abi.encodePacked("assistant")),
       "No response to previous message"
     );
@@ -118,8 +131,20 @@ contract ChatSearchAI {
     IOracle.Message memory newMessage = createTextMessage("user", message);
     run.messages.push(newMessage);
     run.messagesCount++;
-    IOracle(oracleAddress).createLlmCall(runId);
-    emit MessageAdded(runId, "user", message);
+    // If there is a knowledge base, create a knowledge base query
+    if (bytes(knowledgeBase).length > 0) {
+      IOracle(oracleAddress).createKnowledgeBaseQuery(
+        runId,
+        knowledgeBase,
+        message,
+        3
+      );
+      emit MessageAdded(runId, "user", message);
+    } else {
+      // Otherwise, create an LLM call
+      IOracle(oracleAddress).createLlmCall(runId);
+      emit MessageAdded(runId, "user", message);
+    }
   }
 
   // @notice Creates a new message structure with the specified role and content
@@ -139,43 +164,20 @@ contract ChatSearchAI {
     return newMessage;
   }
 
-  // @notice Retrieves the text content of all messages in a specific chat
-  // @param chatId The ID of the chat from which to retrieve the message contents
-  // @return An array of strings, where each string is the content of a message in the chat
-  function getMessageHistoryContents(
+  // @notice Retrieves the message history of a chat run
+  // @param chatId The ID of the chat run
+  // @return An array of messages
+  // @dev Called by teeML oracle
+  function getMessageHistory(
     uint chatId
-  ) public view returns (string[] memory) {
-    ChatRun storage run = chatRuns[chatId];
-    string[] memory messages = new string[](run.messages.length);
-
-    for (uint i = 0; i < run.messages.length; i++) {
-      if (run.messages[i].content.length > 0) {
-        messages[i] = run.messages[i].content[0].value;
-      } else {
-        messages[i] = "";
-      }
-    }
-    return messages;
+  ) public view returns (IOracle.Message[] memory) {
+    return chatRuns[chatId].messages;
   }
 
-  // @notice Retrieves the roles of all messages in a specific chat
-  // @param chatId The ID of the chat from which to retrieve the message roles
-  // @return An array of strings, where each string represents the role of the sender of a message in the chat
-  function getMessageHistoryRoles(
-    uint chatId
-  ) public view returns (string[] memory) {
-    ChatRun storage run = chatRuns[chatId];
-    string[] memory roles = new string[](run.messages.length);
-
-    for (uint i = 0; i < run.messages.length; i++) {
-      roles[i] = run.messages[i].role;
-    }
-    return roles;
-  }
-
-  // @notice Handles the response from the oracle, adding it as a message in the chat run
-  // @param runId The ID of the chat run that the oracle response belongs to
-  // @param response The content of the response from the oracle
+  // @notice Handles the response from the oracle for an LLM call
+  // @param runId The ID of the chat run
+  // @param response The response from the oracle
+  // @dev Called by teeML oracle
   function onOracleLlmResponse(
     uint runId,
     string memory response,
@@ -195,7 +197,47 @@ contract ChatSearchAI {
     run.messages.push(newMessage);
     run.messagesCount++;
 
-    emit OracleResponseReceived(runId, response);
     emit MessageAdded(runId, "assistant", response);
   }
+
+  // @notice Handles the response from the oracle for a knowledge base query
+  // @param runId The ID of the chat run
+  // @param documents The array of retrieved documents
+  // @dev Called by teeML oracle
+  function onOracleKnowledgeBaseQueryResponse(
+    uint runId,
+    string[] memory documents,
+    string memory /*errorMessage*/
+  ) public onlyOracle {
+    ChatRun storage run = chatRuns[runId];
+    require(
+      keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) ==
+        keccak256(abi.encodePacked("user")),
+      "No message to add context to"
+    );
+    // Retrieve the last user message
+    IOracle.Message storage lastMessage = run.messages[run.messagesCount - 1];
+
+    // Start with the original message content
+    string memory newContent = lastMessage.content[0].value;
+
+    // Append "Relevant context:\n" only if there are documents
+    if (documents.length > 0) {
+      newContent = string(
+        abi.encodePacked(newContent, "\n\nRelevant context:\n")
+      );
+    }
+
+    // Iterate through the documents and append each to the newContent
+    for (uint i = 0; i < documents.length; i++) {
+      newContent = string(abi.encodePacked(newContent, documents[i], "\n"));
+    }
+
+    // Finally, set the lastMessage content to the newly constructed string
+    lastMessage.content[0].value = newContent;
+
+    // Call LLM
+    IOracle(oracleAddress).createLlmCall(runId);
+  }
+
 }
