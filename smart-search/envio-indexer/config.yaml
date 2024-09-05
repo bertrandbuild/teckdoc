@@ -4,7 +4,7 @@ networks:
 - id: 696969
   start_block: 0
   contracts:
-  - name: ChatSearchIA
+  - name: ChatSearchAI
     address:
     - 0xC21baa79740735ce4EA8eE3f2046d617a00b1f86
     handler: src/EventHandlers.ts
