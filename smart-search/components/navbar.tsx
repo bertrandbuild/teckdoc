@@ -1,19 +1,23 @@
-import { ModeToggle } from "@/components/theme-toggle";
-import { GithubIcon, TwitterIcon, HexagonIcon } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import Search from "./search/search";
-import Anchor from "./anchor";
-import { SheetLeftbar } from "./leftbar";
-import { page_routes } from "@/lib/routes-config";
-import { SheetClose } from "@/components/ui/sheet";
+"use client";
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { GithubIcon, HexagonIcon } from "lucide-react"
+
+import { page_routes } from "@/lib/routes-config"
+import { SheetClose } from "@/components/ui/sheet"
+import { ModeToggle } from "@/components/theme-toggle"
+
+import Anchor from "./anchor"
+import { SheetLeftbar } from "./leftbar"
+import Search from "./search/search"
+import { buttonVariants } from "./ui/button"
 
 export const NAVLINKS = [
   {
     title: "Example",
     href: `/docs${page_routes[0].href}`,
   },
-];
+]
 
 export function Navbar() {
   return (
@@ -44,10 +48,11 @@ export function Navbar() {
               <ModeToggle />
             </div>
           </div>
+          <AuthMenu />
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
 export function Logo() {
@@ -56,7 +61,7 @@ export function Logo() {
       <HexagonIcon className="text-muted-foreground size-7 fill-current" />
       <h2 className="text-md font-bold">TeckDoc</h2>
     </Link>
-  );
+  )
 }
 
 export function NavMenu({ isSheet = false }) {
@@ -72,15 +77,48 @@ export function NavMenu({ isSheet = false }) {
           >
             {item.title}
           </Anchor>
-        );
+        )
         return isSheet ? (
           <SheetClose key={item.title + item.href} asChild>
             {Comp}
           </SheetClose>
         ) : (
           Comp
-        );
+        )
       })}
     </>
-  );
+  )
+}
+
+export function AuthMenu() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail")
+    if (email) {
+      setIsAuthenticated(true)
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem("userEmail") // Delete email when disconnected
+    setIsAuthenticated(false)
+  }
+
+  return (
+    <>
+      {isAuthenticated ? (
+        <button
+          onClick={handleLogout}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Logout
+        </button>
+      ) : (
+        <Link href="/login" className={buttonVariants({ variant: "default" })}>
+          Login
+        </Link>
+      )}
+    </>
+  )
 }
