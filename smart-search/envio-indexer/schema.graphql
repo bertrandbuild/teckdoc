@@ -1,0 +1,13 @@
+type ChatSearchIA_ChatCreated {
+  id: ID!
+  owner: String!
+  chatId: BigInt!
+}
+
+type ChatSearchIA_MessageAdded {
+  id: ID!
+  chatId: BigInt!
+  role: String!
+  content: String!
+}
+
