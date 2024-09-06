@@ -41,8 +41,8 @@ To set up your environment for running the RAG Knowledge Base Script, follow the
 
 1. Place your document files in a designated directory. The script can process multiple files in a batch.
     ```shell
-    chmod u+x scripts-generate-rag-file.txt;
-    ./script-generate-rag-file.txt&
+    chmod u+x scripts-generate-rag-file.sh;
+    ./scripts-generate-rag-file.sh
     ```
 2. Run the script with the necessary arguments. For example, to ingest documents from the `galadriel_docs` directory, set a chunk size of 1500, and specify an oracle fee of 200:
     ```
