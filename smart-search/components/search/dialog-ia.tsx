@@ -23,10 +23,10 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   const router = useRouter()
   const [items, setItems] = useState<any[]>([
     {
-      href: "/getting-started/installation",
+      href: "getting-started/installation",
       title: "Installation"
     },{
-      href: "/getting-started/quick-start-guide",
+      href: "getting-started/quick-start-guide",
       title: "Quick Start Guide"
     },
   ])

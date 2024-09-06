@@ -26,6 +26,9 @@ contract ChatSearchAI {
   // @notice Event emitted when the oracle address is updated
   event OracleAddressUpdated(address indexed newOracleAddress);
 
+  // @notice Event emitted when the knowledge base is updated
+  event KnowledgeBaseUpdated(string indexed newKnowledgeBase);
+
   // @notice Event emitted when a new chat is created
   event ChatCreated(address indexed owner, uint indexed chatId);
 
@@ -82,6 +85,13 @@ contract ChatSearchAI {
   function setOracleAddress(address newOracleAddress) public onlyOwner {
     oracleAddress = newOracleAddress;
     emit OracleAddressUpdated(newOracleAddress);
+  }
+
+  // @notice Sets a new knowledge base
+  // @param newKnowledgeBase The new knowledge base
+  function setKnowledgeBase(string memory newKnowledgeBase) public onlyOwner {
+    knowledgeBase = newKnowledgeBase;
+    emit KnowledgeBaseUpdated(newKnowledgeBase);
   }
 
   // @notice Starts a new chat

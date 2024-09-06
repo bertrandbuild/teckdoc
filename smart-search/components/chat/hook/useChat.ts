@@ -88,7 +88,6 @@ const useChat = () => {
             const lastMessage = newMessages.at(-1)
 
             if (lastMessage && lastMessage.role === "assistant") {
-              let content: string | undefined
 
               for (const message of newMessages) {
                 const target_copy = JSON.parse(JSON.stringify(message))
@@ -96,12 +95,7 @@ const useChat = () => {
                   .trim()
                   .toLowerCase()
 
-                  console.log("ICI")
-                  console.log(llmReturnedValue)
-
                   if (llmReturnedValue === "yes") {
-                  console.log("ICI return")
-                  console.log(llmReturnedValue)
                   return true
                 } else if (llmReturnedValue === "no") {
                   return false
