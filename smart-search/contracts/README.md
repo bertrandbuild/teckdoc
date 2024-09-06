@@ -1,6 +1,6 @@
 # Trading Bro contracts
 
-Deployed on galadriel devnet: 0x9Cc7E153254237f08d743599AABBF13364e47417 with dev oracle : 0xcb6E1344f73Fa139E16cBe4210Ea4D434c265197
+Deployed on galadriel devnet: 0x7D2b35E1943007F50d45E5c10F60C7F9DA6eE4E8 with dev oracle : 0x0352b37E5680E324E804B5A6e1AddF0A064E201D
 
 ## Documentation
 
@@ -23,7 +23,7 @@ $ forge test
 ### Deploy
 
 ```shell
-forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args 0x0352b37E5680E324E804B5A6e1AddF0A064E201D
+forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args 0x0352b37E5680E324E804B5A6e1AddF0A064E201D <RAG ADDRESS>
 ```
 
 ### Generate ABIs
