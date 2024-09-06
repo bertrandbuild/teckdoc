@@ -103,7 +103,7 @@ export default function AdminPage() {
     // Count daily requests
     const dailyReqs = mockData.data.ChatSearchAI_MessageAdded.reduce(
       (acc: any, message: any) => {
-        const date = new Date(message.db_write_timestamp).toLocaleDateString()
+        const date = new Date(message.db_write_timestamp).toISOString().split("T")[0];
         if (message.role === "user") {
           acc[date] = acc[date] ? acc[date] + 1 : 1
         }
