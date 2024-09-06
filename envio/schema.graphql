@@ -1,10 +1,10 @@
-type ChatSearchAI_ChatCreated {
+type Chatsearch_ChatCreated {
   id: ID!
   owner: String!
   chatId: BigInt!
 }
 
-type ChatSearchAI_MessageAdded {
+type Chatsearch_MessageAdded {
   id: ID!
   chatId: BigInt!
   role: String!

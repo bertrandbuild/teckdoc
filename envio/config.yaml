@@ -4,9 +4,9 @@ networks:
 - id: 696969
   start_block: 0
   contracts:
-  - name: ChatSearchAI
+  - name: chatsearch
     address:
-    - 0x7D2b35E1943007F50d45E5c10F60C7F9DA6eE4E8
+    - 0x44241cd673bFDe20C31c54203F10384B40eC5F43
     handler: src/EventHandlers.ts
     events:
     - event: ChatCreated(address indexed owner, uint256 indexed chatId)
