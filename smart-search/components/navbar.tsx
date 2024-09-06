@@ -72,15 +72,6 @@ export function Logo() {
 
 export function NavMenu({ isSheet = false }) {
   const { isLoggedIn, isAdmin } = useWeb3Auth()
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setShouldRender(true);
-    } else {
-      setShouldRender(false);
-    }
-  }, [isLoggedIn, isAdmin]); 
 
   return (
     <>
