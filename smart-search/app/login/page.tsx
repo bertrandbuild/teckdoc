@@ -18,10 +18,8 @@ export default function LoginPage() {
     const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 
     if (email === adminEmail && password === adminPassword) {
-      // Simuler une connexion en stockant l'email dans le localStorage
       localStorage.setItem("userEmail", email)
 
-      // Rediriger l'utilisateur vers la page d'accueil ou admin
       router.push("/admin")
     } else {
       setError("Invalid email or password")
