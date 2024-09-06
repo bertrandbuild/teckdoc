@@ -30,6 +30,95 @@ const useChat = () => {
     return chatId
   }
 
+  // Prefix the prompt to request validation from the AI
+  const buildValidationPrompt = (userPrompt: string): string => {
+    const forbiddenContentChecklist = [
+      "insults",
+      "discriminatory remarks",
+      "hate speech",
+      "sexually explicit content",
+      "spam",
+      "fraud or scams",
+      "illegal propositions",
+      "phishing",
+      "misleading content",
+      "harassment",
+      "copyright violations",
+      "privacy violations",
+      "false information",
+    ]
+
+    const checklist = forbiddenContentChecklist.join(", ")
+    return `Is this request legitimate: "${userPrompt}"? Please ensure the request does not contain the following: ${checklist}. Answer with either yes or no.`
+  }
+
+  // Validate prompt user
+  const validateRequest = async (prompt: string): Promise<boolean> => {
+    try {
+      if (!walletPrivateKey) throw new Error("Private key is missing")
+
+      const provider = new ethers.JsonRpcProvider(
+        "https://devnet.galadriel.com"
+      )
+      const wallet = new ethers.Wallet(walletPrivateKey, provider)
+      const contract = new Contract(
+        contractAddress || "",
+        chatSearchAIABI,
+        wallet
+      )
+
+      const validationPrompt = buildValidationPrompt(prompt)
+
+      const tx = await contract.startChat(validationPrompt, {
+        gasPrice: ethers.parseUnits("1", "gwei"),
+        gasLimit: 5000000,
+      })
+
+      const receipt = await tx.wait()
+      const chatId = getChatId(receipt, contract)
+
+      if (receipt.status && chatId) {
+        for (let i = 0; i < 20; i++) {
+          // Limite à 20 tentatives max
+          const newMessages: ChatMessage[] = await contract.getMessageHistory(
+            chatId
+          )
+
+          if (newMessages.length > 0) {
+            const lastMessage = newMessages.at(-1)
+
+            if (lastMessage && lastMessage.role === "assistant") {
+              let content: string | undefined
+
+              for (const message of newMessages) {
+                const target_copy = JSON.parse(JSON.stringify(message))
+                const llmReturnedValue = target_copy[1][0][1]
+                  .trim()
+                  .toLowerCase()
+
+                  console.log("ICI")
+                  console.log(llmReturnedValue)
+
+                  if (llmReturnedValue === "yes") {
+                  console.log("ICI return")
+                  console.log(llmReturnedValue)
+                  return true
+                } else if (llmReturnedValue === "no") {
+                  return false
+                }
+              }
+            }
+          }
+          // Attendre 2 secondes avant de réessayer
+          await new Promise((resolve) => setTimeout(resolve, 2000))
+        }
+      }
+    } catch (error) {
+      console.error("Error during validation:", error)
+    }
+    return false
+  }
+
   const startChat = async (prompt: string): Promise<ChatMessage> => {
     try {
       if (!walletPrivateKey) {
@@ -49,6 +138,13 @@ const useChat = () => {
       const gasPrice = ethers.parseUnits("1", "gwei") // 1 Gwei
       const gasLimit = 5000000 // large gas limit 5,000,000
 
+      // Verification requets (prompt user)
+      const isValid = await validateRequest(prompt)
+      if (!isValid) {
+        console.error("Request invalid.")
+        return { content: "Request invalid, please change your message!", role: "assistant", transactionHash: "" }
+      }
+
       const tx = await contract.startChat(prompt, {
         gasPrice: gasPrice,
         gasLimit: gasLimit,
@@ -59,7 +155,6 @@ const useChat = () => {
       const chatId = getChatId(receipt, contract)
 
       if (receipt && receipt.status && chatId) {
-
         while (true) {
           const newMessages: ChatMessage[] = await contract.getMessageHistory(
             chatId
@@ -69,26 +164,27 @@ const useChat = () => {
             const lastMessage = newMessages.at(-1)
 
             if (lastMessage && lastMessage.role === "assistant") {
-              let content: string | undefined;
+              let content: string | undefined
               for (const message of newMessages) {
-                const target_copy = JSON.parse(JSON.stringify(message));
+                const target_copy = JSON.parse(JSON.stringify(message))
                 if (target_copy[0] === "assistant") {
                   if (process.env.NEXT_PUBLIC_IS_DEV) {
-                    console.log(target_copy);
-                    console.log(target_copy[1][0][1]);
+                    console.log(target_copy)
+                    console.log(target_copy[1][0][1])
                   }
-                  content = target_copy[1][0][1];
-                  break;
+                  content = target_copy[1][0][1]
+                  break
                 }
               }
-              if (content) return {
-                content,
-                role: "assistant",
-                transactionHash: receipt.hash
-              };
+              if (content)
+                return {
+                  content,
+                  role: "assistant",
+                  transactionHash: receipt.hash,
+                }
             }
           }
-          await new Promise((resolve) => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 2000))
         }
       }
     } catch (error: any) {
