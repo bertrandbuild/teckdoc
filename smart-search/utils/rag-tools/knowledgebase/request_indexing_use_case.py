@@ -11,8 +11,16 @@ web3_client = Web3(Web3.HTTPProvider(settings.RPC_URL))
 account = web3_client.eth.account.from_key(settings.PRIVATE_KEY)
 with open(settings.ORACLE_ABI_PATH, "r", encoding="utf-8") as f:
     oracle_abi = json.loads(f.read())["abi"]
+with open(settings.CHAT_ABI_PATH, "r", encoding="utf-8") as f:
+    chat_abi = json.loads(f.read())
 
 contract = web3_client.eth.contract(address=settings.ORACLE_ADDRESS, abi=oracle_abi)
+contract_chat = web3_client.eth.contract(address=settings.CHAT_SEARCH_ADDRESS, abi=chat_abi)
+
+
+def update_cid_on_contract(cid: str) -> str:
+    print('Caller of the function:', account.address)
+    return contract_chat.functions.setKnowledgeBase(cid).call()
 
 
 def _get_index_cid(cid: str) -> str:

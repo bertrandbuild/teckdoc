@@ -10,6 +10,7 @@ def execute(documents: List[Document]) -> str:
     multipart_data = {
         "file": ("file", serialized_data, ),
     }
+    print(f"Uploading documents to IPFS, please wait...")
     response = requests.post(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
         headers={

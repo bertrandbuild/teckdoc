@@ -18,13 +18,22 @@ def main(directory: str, chunk_size: int, chunk_overlap: int) -> None:
     documents = load_documents_use_case.execute(directory, text_splitter)
     print("Uploading documents to IPFS, please wait...", end="")
     cid: str = upload_documents_use_case.execute(documents)
-    print(f"done.")
-    print("Requesting indexing, please wait...",end="")
+    print(f"done, uploaded to ipfs, cid: {cid}")
+    print("Requesting indexing, please wait...", end="")
     response = request_indexing_use_case.execute(cid)
     if response.is_processed and response.index_cid:
-        print("done.")
-        print(f"Knowledge base indexed, index CID `{response.index_cid}`.")
-        print(f"Use CID `{cid}` in your contract to query the indexed knowledge base.")
+        print(
+            f"Knowledge base indexed, we will use CID `{response.index_cid}`"
+            "to update your contract so it can query the new knowledge base."
+        )
+        response2 = request_indexing_use_case.update_cid_on_contract(
+            response.index_cid
+        )
+        if response2.is_processed:
+            print("done updating knowledge base on search contract.")
+        else:
+            print("failed to update knowledge base on search contract.")
+
     else:
         print("failed.")
         print(response.error or "Failed to index knowledge base.")
