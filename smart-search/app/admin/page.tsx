@@ -14,6 +14,10 @@ import {
 } from "chart.js"
 import { Line } from "react-chartjs-2"
 
+import { useWeb3Auth } from "@/components/web3auth/web3auth-context"
+import { Loader } from "@/components/loader"
+import { AuthMenu } from "@/components/navbar"
+
 // Recording Chart.js elements
 ChartJS.register(
   CategoryScale,
@@ -26,9 +30,12 @@ ChartJS.register(
 )
 
 export default function AdminPage() {
+const { isLoggedIn, isAdmin } = useWeb3Auth()
   const [data, setData] = useState<any>(null)
   const [dailyRequests, setDailyRequests] = useState<any>({})
   const [error, setError] = useState<string | null>(null)
+
+
 
   function generateRandomChatId() {
     return Math.floor(Math.random() * 100) // Create ID random
@@ -103,7 +110,9 @@ export default function AdminPage() {
     // Count daily requests
     const dailyReqs = mockData.data.ChatSearchAI_MessageAdded.reduce(
       (acc: any, message: any) => {
-        const date = new Date(message.db_write_timestamp).toISOString().split("T")[0];
+        const date = new Date(message.db_write_timestamp)
+          .toISOString()
+          .split("T")[0]
         if (message.role === "user") {
           acc[date] = acc[date] ? acc[date] + 1 : 1
         }
@@ -116,7 +125,26 @@ export default function AdminPage() {
   }, [])
 
   if (!data) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h2>
+          <Loader />
+        </h2>
+      </div>
+    )
+  }
+
+  if (!isLoggedIn && !isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-center mb-4">
+          Please log in to your <strong>administrator</strong> account
+        </h1>
+        <div className="flex items-center justify-center">
+            <AuthMenu />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
