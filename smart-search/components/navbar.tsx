@@ -1,5 +1,6 @@
-"use client";
-import { useEffect, useState } from "react"
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { GithubIcon, HexagonIcon } from "lucide-react"
 
@@ -11,11 +12,16 @@ import Anchor from "./anchor"
 import { SheetLeftbar } from "./leftbar"
 import Search from "./search/search"
 import { buttonVariants } from "./ui/button"
+import { useWeb3Auth } from "./web3auth/web3auth-context"
 
 export const NAVLINKS = [
   {
     title: "Example",
     href: `/docs${page_routes[0].href}`,
+  },
+  {
+    title: "Dashboard",
+    href: `/admin`,
   },
 ]
 
@@ -65,9 +71,24 @@ export function Logo() {
 }
 
 export function NavMenu({ isSheet = false }) {
+  const { isLoggedIn, isAdmin } = useWeb3Auth()
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setShouldRender(true);
+    } else {
+      setShouldRender(false);
+    }
+  }, [isLoggedIn, isAdmin]); 
+
   return (
     <>
       {NAVLINKS.map((item) => {
+        if (item.title === "Dashboard" && (!isLoggedIn || !isAdmin)) {
+          return null
+        }
+
         const Comp = (
           <Anchor
             key={item.title + item.href}
@@ -91,33 +112,51 @@ export function NavMenu({ isSheet = false }) {
 }
 
 export function AuthMenu() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { isLoggedIn, web3auth, setProvider, setIsLoggedIn } = useWeb3Auth()
 
-  useEffect(() => {
-    const email = localStorage.getItem("userEmail")
-    if (email) {
-      setIsAuthenticated(true)
+  const login = async () => {
+    try {
+      if (!web3auth) {
+        console.error("Web3Auth is not initialized")
+        return
+      }
+      const web3authProvider = await web3auth.connect() // Connect with Web3Auth
+      setProvider(web3authProvider)
+      setIsLoggedIn(true)
+    } catch (error) {
+      console.error("Login failed", error)
     }
-  }, [])
-
-  const handleLogout = () => {
-    localStorage.removeItem("userEmail") // Delete email when disconnected
-    setIsAuthenticated(false)
   }
 
+  const logout = async () => {
+    try {
+      if (!web3auth) {
+        console.error("Web3Auth is not initialized")
+        return
+      }
+      await web3auth.logout() // Logout in Web3Auth
+      setProvider(null)
+      setIsLoggedIn(false)
+    } catch (error) {
+      console.error("Logout failed", error)
+    }
+  }
   return (
     <>
-      {isAuthenticated ? (
+      {isLoggedIn ? (
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className={buttonVariants({ variant: "default" })}
         >
           Logout
         </button>
       ) : (
-        <Link href="/login" className={buttonVariants({ variant: "default" })}>
-          Login
-        </Link>
+        <button
+          onClick={login}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Login with Web3
+        </button>
       )}
     </>
   )
