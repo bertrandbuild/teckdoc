@@ -1,36 +1,36 @@
 import assert from "assert";
 import { 
   TestHelpers,
-  Chatsearch_ChatCreated
+  Chatsearchai_ChatCreated
 } from "generated";
-const { MockDb, Chatsearch } = TestHelpers;
+const { MockDb, Chatsearchai } = TestHelpers;
 
-describe("Chatsearch contract ChatCreated event tests", () => {
+describe("Chatsearchai contract ChatCreated event tests", () => {
   // Create mock db
   const mockDb = MockDb.createMockDb();
 
-  // Creating mock for Chatsearch contract ChatCreated event
-  const event = Chatsearch.ChatCreated.createMockEvent({/* It mocks event fields with default values. You can overwrite them if you need */});
+  // Creating mock for Chatsearchai contract ChatCreated event
+  const event = Chatsearchai.ChatCreated.createMockEvent({/* It mocks event fields with default values. You can overwrite them if you need */});
 
-  it("Chatsearch_ChatCreated is created correctly", async () => {
+  it("Chatsearchai_ChatCreated is created correctly", async () => {
     // Processing the event
-    const mockDbUpdated = await Chatsearch.ChatCreated.processEvent({
+    const mockDbUpdated = await Chatsearchai.ChatCreated.processEvent({
       event,
       mockDb,
     });
 
     // Getting the actual entity from the mock database
-    let actualChatsearchChatCreated = mockDbUpdated.entities.Chatsearch_ChatCreated.get(
+    let actualChatsearchaiChatCreated = mockDbUpdated.entities.Chatsearchai_ChatCreated.get(
       `${event.chainId}_${event.block.number}_${event.logIndex}`
     );
 
     // Creating the expected entity
-    const expectedChatsearchChatCreated: Chatsearch_ChatCreated = {
+    const expectedChatsearchaiChatCreated: Chatsearchai_ChatCreated = {
       id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
       owner: event.params.owner,
       chatId: event.params.chatId,
     };
     // Asserting that the entity in the mock database is the same as the expected entity
-    assert.deepEqual(actualChatsearchChatCreated, expectedChatsearchChatCreated, "Actual ChatsearchChatCreated should be the same as the expectedChatsearchChatCreated");
+    assert.deepEqual(actualChatsearchaiChatCreated, expectedChatsearchaiChatCreated, "Actual ChatsearchaiChatCreated should be the same as the expectedChatsearchaiChatCreated");
   });
 });

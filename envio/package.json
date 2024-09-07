@@ -1,5 +1,5 @@
 {
-  "name": "envioindexer",
+  "name": "envio",
   "version": "0.1.0",
   "scripts": {
     "clean": "tsc --clean",
