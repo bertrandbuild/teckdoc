@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { IProvider } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
 import { web3auth } from './web3auth-config';
+const ADMIN_EMAILS = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",") || [];
 
 interface Web3AuthContextType {
   provider: IProvider | null;
