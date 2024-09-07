@@ -1,15 +1,13 @@
 ---
-title:Build a Blind App with the cra-nillion starter repo
+title: Build a Blind App
 ---
 
-:::info
-
+<Note title="Info" type="note">
 This is the 3rd step in the Blind App Quickstart. Before starting this guide,
 
 1. [Install the Nillion SDK](/quickstart-install)
 2. [Create a Nada project](/quickstart-nada) and write your first Nada program
-
-:::
+</Note>
 
 The [cra-nillion Starter Repo](https://github.com/NillionNetwork/cra-nillion) repo is a Create React App which has everything you need to start building your blind app.
 
@@ -23,11 +21,10 @@ git clone https://github.com/NillionNetwork/cra-nillion.git
 
 ### Install repo dependencies and run the starter
 
-:::info
-
+<Note title="Info" type="note"
 Before you use [cra-nillion](https://github.com/NillionNetwork/cra-nillion), check that you have [Node (>= v18.17)](https://nodejs.org/en/download/) installed by running
 `node -v`
-:::
+</Note>
 
 ```
 cd cra-nillion
@@ -145,34 +142,7 @@ const partyName = 'Party1';
 
 Notice that the ComputePage sets `outputName` which matches the the output name set in secret_addition.py. The ComputePage sets `partyName` which matches the the party name set in secret_addition.py. There are 2 `StoreSecretForm` components on ComputePage, with secretName set to `my_int1` and `my_int2` which matches the the secret names set in secret_addition.py.
 
-<Tabs>
-<TabItem value="helpers" label="secret_addition.py" default>
-```
-from nada_dsl import *
 
-def nada_main():
-
-    party1 = Party(name="Party1")
-
-    my_int1 = SecretInteger(Input(name="my_int1", party=party1))
-
-    my_int2 = SecretInteger(Input(name="my_int2", party=party1))
-
-    new_int = my_int1 + my_int2
-
-    return [Output(new_int, "my_output", party1)]
-
-````
-</TabItem>
-
-<TabItem value="compute" label="ComputePage.tsx" >
-```ts reference showGithubLink
-https://github.com/NillionNetwork/cra-nillion/blob/main/src/ComputePage.tsx
-````
-
-</TabItem>
-
-</Tabs>
 
 ### Update programName
 
@@ -202,11 +172,10 @@ Now your cra-nillion app can use the nada program and the nada program binaries 
 const programName = "secret_addition";
 ```
 
-:::tip
 
+<Note title="Info" type="note">
 Open the Nillion [JavaScript Client Reference](https://nillion.pub/nillion-js-reference/) doc in another tab to search for available Nillion Client classes while working with cra-nillion.
-
-:::
+</Note>
 
 ## Run the Blind Computation Demo
 

@@ -17,8 +17,6 @@ export const ROUTES: EachRoute[] = [
         href: "/quick-start-guide",
         items: [
           { title: "Install Nillion", href: "/quickstart-install" },
-          { title: "Create a Nada project", href: "/quickstart-nada" },
-          { title: "Build a Blind App", href: "/quickstart-blind-app" },
           { title: "Deploy to the Testnet", href: "/quickstart-testnet" },
         ],
       },
