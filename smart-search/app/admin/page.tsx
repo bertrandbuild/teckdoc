@@ -222,7 +222,7 @@ export default function AdminPage() {
   const assistantMessages = data.Chatsearchai_MessageAdded.filter(
     (msg: any) => msg.role === "assistant"
   ).length
-
+ 
   // Check for valid messages (wizard says ‘No’) and spam (wizard says ‘Yes’)
   const spamMessages = data.Chatsearchai_MessageAdded.filter(
     (msg: any) =>
@@ -295,6 +295,9 @@ export default function AdminPage() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+      <div className="text-center text-lg font-medium text-gray-700 dark:text-gray-300">
+        powered by <span className="font-bold"><a href="https://envio.dev/app/bertrandbuild/teckdoc-3" target="_blank" rel="noopener noreferrer">Envio</a></span>
+      </div>
 
       {/* General statistics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">

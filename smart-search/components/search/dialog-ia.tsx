@@ -94,6 +94,9 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
               </div>
             </div>
           </button>
+          <span className="text-sm text-gray-500 ml-4">
+            Powered by <a className="text-gray-500 hover:text-gray-600" href="https://galadriel.com/" target="_blank" rel="noopener noreferrer">Galadriel</a>
+          </span>
         </div>
       )}
       <div className="ml-8">

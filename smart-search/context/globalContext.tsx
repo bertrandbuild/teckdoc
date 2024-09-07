@@ -7,6 +7,7 @@ import React, { createContext, useState, useEffect } from "react";
 interface IGlobalContextType {
   isSearchOpen: boolean;
   numberRequests: number;
+  selectedDemo: string;
   updateContext: (key: string, value: unknown) => void;
 }
 
@@ -14,12 +15,14 @@ interface IGlobalContextType {
 const initialLocalStorageConfig = {
   isSearchOpen: false,
   numberRequests: 0,
+  selectedDemo: "nillion",
 };
 
 // Default context values
 const defaultContext: IGlobalContextType = {
   isSearchOpen: false,
   numberRequests: 0,
+  selectedDemo: "nillion",
   updateContext: () => {},
 };
 
