@@ -15,7 +15,7 @@ import { useWeb3Auth } from "./web3auth/web3auth-context"
 
 export const NAVLINKS = [
   {
-    title: "Example",
+    title: "Nillion Example",
     href: `/docs${page_routes[0].href}`,
   },
   {

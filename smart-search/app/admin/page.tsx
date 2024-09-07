@@ -12,11 +12,20 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
+import { gql, request } from "graphql-request"
 import { Line } from "react-chartjs-2"
 
-import { useWeb3Auth } from "@/components/web3auth/web3auth-context"
 import { Loader } from "@/components/loader"
 import { AuthMenu } from "@/components/navbar"
+import { useWeb3Auth } from "@/components/web3auth/web3auth-context"
+
+interface Message {
+  db_write_timestamp: string
+  id: string
+  chatId: string
+  content: string
+  role: "user" | "assistant"
+}
 
 // Recording Chart.js elements
 ChartJS.register(
@@ -30,12 +39,56 @@ ChartJS.register(
 )
 
 export default function AdminPage() {
-const { isLoggedIn, isAdmin } = useWeb3Auth()
+  const { isLoggedIn, isAdmin } = useWeb3Auth()
   const [data, setData] = useState<any>(null)
   const [dailyRequests, setDailyRequests] = useState<any>({})
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
+  const MESSAGES_QUERY = gql`
+    query GetMessages {
+      Chatsearchai_MessageAdded(order_by: { db_write_timestamp: asc }) {
+        id
+        chatId
+        db_write_timestamp
+        content
+        role
+      }
+    }
+  `
 
+  async function fetchMessages() {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const result = await request(
+        "https://indexer.bigdevenergy.link/b19e0f3/v1/graphql",
+        MESSAGES_QUERY
+      )
+      console.log("result", result)
+      setData(result)
+
+      // Count daily requests
+      const dailyReqs = result.Chatsearchai_MessageAdded.reduce(
+        (acc: any, message: any) => {
+          const date = new Date(message.db_write_timestamp)
+            .toISOString()
+            .split("T")[0]
+          if (message.role === "user") {
+            acc[date] = acc[date] ? acc[date] + 1 : 1
+          }
+          return acc
+        },
+        {}
+      )
+      setDailyRequests(dailyReqs)
+    } catch (err) {
+      setError("Failed to fetch messages")
+      console.error("Error fetching messages:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   function generateRandomChatId() {
     return Math.floor(Math.random() * 100) // Create ID random
@@ -80,7 +133,7 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
   function generateMockData(numEntries: number) {
     const mockData = {
       data: {
-        ChatSearchAI_MessageAdded: [] as any[],
+        Chatsearchai_MessageAdded: [] as Message[],
       },
     }
 
@@ -90,10 +143,10 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
       const role = i % 2 === 0 ? "user" : "assistant" // user and assistant
       const content = generateRandomContent(role)
 
-      mockData.data.ChatSearchAI_MessageAdded.push({
-        db_write_timestamp: timestamp,
+      mockData.data.Chatsearchai_MessageAdded.push({
         id: `696969_${chatId}_${i}`,
         chatId: `${chatId}`,
+        db_write_timestamp: timestamp,
         content,
         role,
       })
@@ -102,13 +155,12 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
     return mockData
   }
 
-  // Data simulation while waiting for the API
-  useEffect(() => {
+  const fetchMockData = async () => {
     const mockData = generateMockData(100)
     setData(mockData.data)
 
     // Count daily requests
-    const dailyReqs = mockData.data.ChatSearchAI_MessageAdded.reduce(
+    const dailyReqs = mockData.data.Chatsearchai_MessageAdded.reduce(
       (acc: any, message: any) => {
         const date = new Date(message.db_write_timestamp)
           .toISOString()
@@ -122,6 +174,17 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
     )
 
     setDailyRequests(dailyReqs)
+  }
+
+  // Data simulation while waiting for the API
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_IS_DEV === "trueeeee") {
+      console.log("Fetching mock data")
+      fetchMockData()
+    } else {
+      console.log("Fetching real data")
+      fetchMessages()
+    }
   }, [])
 
   if (!data) {
@@ -141,7 +204,7 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
           Please log in to your <strong>administrator</strong> account
         </h1>
         <div className="flex items-center justify-center">
-            <AuthMenu />
+          <AuthMenu />
         </div>
       </div>
     )
@@ -152,23 +215,23 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
   }
 
   // Calculate the number of messages and their distribution
-  const totalMessages = data.ChatSearchAI_MessageAdded.length
-  const userMessages = data.ChatSearchAI_MessageAdded.filter(
+  const totalMessages = data.Chatsearchai_MessageAdded.length
+  const userMessages = data.Chatsearchai_MessageAdded.filter(
     (msg: any) => msg.role === "user"
   ).length
-  const assistantMessages = data.ChatSearchAI_MessageAdded.filter(
+  const assistantMessages = data.Chatsearchai_MessageAdded.filter(
     (msg: any) => msg.role === "assistant"
   ).length
 
   // Check for valid messages (wizard says ‘No’) and spam (wizard says ‘Yes’)
-  const spamMessages = data.ChatSearchAI_MessageAdded.filter(
+  const spamMessages = data.Chatsearchai_MessageAdded.filter(
     (msg: any) =>
       msg.role === "assistant" && msg.content.toLowerCase() === "yes"
   ).length
   const validMessages = totalMessages - spamMessages
 
   // Check for fail-safe responses (responses without an ‘Error’ or failure message)
-  const successfulResponses = data.ChatSearchAI_MessageAdded.filter(
+  const successfulResponses = data.Chatsearchai_MessageAdded.filter(
     (msg: any) =>
       msg.role === "assistant" && !msg.content.toLowerCase().includes("error")
   ).length
@@ -177,7 +240,7 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
   const reliabilityRate = (successfulResponses / userMessages) * 100
 
   // Group messages by chatId
-  const groupedMessages = data.ChatSearchAI_MessageAdded.reduce(
+  const groupedMessages = data.Chatsearchai_MessageAdded.reduce(
     (acc: any, message: any) => {
       if (!acc[message.chatId]) {
         acc[message.chatId] = []
