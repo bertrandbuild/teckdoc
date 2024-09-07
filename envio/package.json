@@ -1,5 +1,5 @@
 {
-  "name": "envioIndexer",
+  "name": "envio",
   "version": "0.1.0",
   "scripts": {
     "clean": "tsc --clean",
@@ -22,7 +22,7 @@
     "mocha": "10.2.0"
   },
   "dependencies": {
-    "envio": "2.2.0"
+    "envio": "2.2.2"
   },
   "optionalDependencies": {
     "generated": "./generated"

@@ -1,12 +1,12 @@
 # yaml-language-server: $schema=./node_modules/envio/evm.schema.json
-name: envioIndexer
+name: envio
 networks:
 - id: 696969
   start_block: 0
   contracts:
-  - name: ChatSearchAI
+  - name: chatsearchai
     address:
-    - 0x7D2b35E1943007F50d45E5c10F60C7F9DA6eE4E8
+    - 0x532b8660585db611B73Ac1aB00979aD06a6ED289
     handler: src/EventHandlers.ts
     events:
     - event: ChatCreated(address indexed owner, uint256 indexed chatId)
