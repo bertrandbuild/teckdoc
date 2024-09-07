@@ -7,80 +7,74 @@ export type EachRoute = {
 
 export const ROUTES: EachRoute[] = [
   {
-    title: "Getting Started",
-    href: "/getting-started",
+    title: "Welcome",
+    href: "/welcome",
     noLink: true,
     items: [
-      { title: "Introduction", href: "/introduction" },
+      { title: "Welcome to Nillion's Docs", href: "/welcome-nillion" },
       {
-        title: "Installation",
-        href: "/installation",
+        title: "Quick Start Guide",
+        href: "/quick-start-guide",
         items: [
-          { title: "Laravel", href: "/laravel" },
-          { title: "React", href: "/react" },
-          { title: "Gatsby", href: "/gatsby" },
+          { title: "Install Nillion", href: "/quickstart-install" },
+          { title: "Create a Nada project", href: "/quickstart-nada" },
+          { title: "Build a Blind App", href: "/quickstart-blind-app" },
+          { title: "Deploy to the Testnet", href: "/quickstart-testnet" },
         ],
-      },
-      { title: "Quick Start Guide", href: "/quick-start-guide" },
-      {
-        title: "Project Structure",
-        href: "/project-structure",
-        items: [
-          { title: "Layouts", href: "/layouts" },
-          { title: "Integrations", href: "/integrations" },
-          {
-            title: "Manual",
-            href: "/manual",
-            items: [
-              { title: "JavaScript", href: "/javascript" },
-              { title: "Typescript", href: "/typescript" },
-              { title: "Golang", href: "/golang" },
-            ],
-          },
-        ],
-      },
-      { title: "Changelog", href: "/changelog" },
-      {
-        title: "FAQ",
-        href: "/faq",
       },
     ],
   },
   {
-    title: "Server Actions",
-    href: "/server-actions",
+    title: "Learn",
+    href: "/learn",
     noLink: true,
     items: [
-      { title: "getSession", href: "/getSession" },
-      { title: "getToken", href: "/getToken" },
-      { title: "getRole", href: "/getRole" },
+      { title: "High Value Data", href: "/high-value-data" },
+      {
+        title: "Multi Party Computation",
+        href: "/multi-party-computation",
+      },
+      { title: "Network", href: "/network" },
+      { title: "Nillions MPC Protocol", href: "/nillions-mpc-protocol" },
+      { title: "What is Nillion", href: "/what-is-nillion" },
     ],
   },
   {
-    title: "React Hooks",
-    href: "/react-hooks",
+    title: "Building",
+    href: "/building",
     noLink: true,
     items: [
-      { title: "useSession", href: "/use-session" },
-      { title: "useFetch", href: "/use-fetch" },
-      { title: "useAuth", href: "/use-auth" },
-      { title: "useProduct", href: "/use-product" },
-      { title: "useOrder", href: "/use-order" },
-      { title: "useCart", href: "/use-cart" },
-      { title: "usePayment", href: "/use-payment" },
-      { title: "useShipping", href: "/use-shipping" },
-      { title: "useNotification", href: "/use-notification" },
-      { title: "useReview", href: "/use-review" },
-      { title: "useInventory", href: "/use-inventory" },
-      { title: "useUser", href: "/use-user" },
-      { title: "useSettings", href: "/use-settings" },
-      { title: "useAnalytics", href: "/use-analytics" },
-      { title: "useTheme", href: "/use-theme" },
-      { title: "useRouter", href: "/use-router" },
-      { title: "useData", href: "/use-data" },
+      { title: "Limitations", href: "/limitations" },
+      { title: "Nada Lang", href: "/nada-lang" },
+      { title: "Network Configuration", href: "/network-configuration" },
+      { title: "Nillion Client", href: "/nillion-client" },
+      { title: "Nillion SDK and Tools", href: "/nillion-sdk-and-tools" },
+      { title: "Start Building", href: "/start-building" },
     ],
   },
-];
+  {
+    title: "Resources",
+    href: "/resources",
+    noLink: true,
+    items: [
+      {
+        title: "Community and Support",
+        href: "/community-and-support",
+      },
+      { title: "Data Wars", href: "/data-wars" },
+      { title: "Glossary", href: "/glossary" },
+      {
+        title: "Nucleus Builders Program",
+        href: "/nucleus-builders-program",
+      },
+      {
+        title: "Technical Reports and Demos",
+        href: "/technical-reports-and-demos",
+      },
+      { title: "Testnet Guides", href: "/testnet-guides" },
+    ],
+  },
+]
 
 function getRecurrsiveAllLinks(node: EachRoute): {
   title: string
@@ -108,4 +102,4 @@ function getRecurrsiveAllLinks(node: EachRoute): {
 }
 
 // Generate a flat list of all pages by mapping over the ROUTES array.
-export const page_routes = ROUTES.map((it) => getRecurrsiveAllLinks(it)).flat();
+export const page_routes = ROUTES.map((it) => getRecurrsiveAllLinks(it)).flat()
