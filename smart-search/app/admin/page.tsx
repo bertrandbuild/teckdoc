@@ -1,3 +1,4 @@
+        ChatSearchAI_MessageAdded: [] as Message[],
 "use client"
 
 import { useEffect, useState } from "react"
@@ -77,10 +78,18 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
       : assistantAnswers[Math.floor(Math.random() * assistantAnswers.length)]
   }
 
+  interface Message {
+    db_write_timestamp: string;
+    id: string;
+    chatId: string;
+    content: string;
+    role: 'user' | 'assistant';
+  }
+
   function generateMockData(numEntries: number) {
     const mockData = {
       data: {
-        ChatSearchAI_MessageAdded: [] as any[],
+        ChatSearchAI_MessageAdded: [] as Message[],
       },
     }
 
@@ -94,6 +103,7 @@ const { isLoggedIn, isAdmin } = useWeb3Auth()
         db_write_timestamp: timestamp,
         id: `696969_${chatId}_${i}`,
         chatId: `${chatId}`,
+        db_write_timestamp: timestamp,
         content,
         role,
       })
