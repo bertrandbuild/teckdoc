@@ -5,14 +5,19 @@ import { GeistSans } from "geist/font/sans"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Theme } from '@radix-ui/themes';
 
 import "./globals.css"
+import '@radix-ui/themes/styles.css';
+
+import { Web3AuthProvider } from "@/components/web3auth/web3auth-context"
+import { GlobalProvider } from "@/context/globalContext"
 
 export const metadata: Metadata = {
-  title: "Docs stater template",
+  title: "TeckDoc",
   metadataBase: new URL("https://docstemplate.vercel.app/"),
   description:
-    "This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.",
+    "TeckDoc is a web3 documentation with token gated AI",
 }
 
 interface RootLayoutProps {
@@ -29,9 +34,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
           suppressHydrationWarning
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <Theme>
+              <GlobalProvider>
+                <Web3AuthProvider>
+                  <Navbar />
+                  <main className="mx-auto h-auto w-[85vw] sm:container">{children}</main>
+                  <Footer />
+                </Web3AuthProvider>
+              </GlobalProvider>
+            </Theme>
           </ThemeProvider>
         </body>
       </html>

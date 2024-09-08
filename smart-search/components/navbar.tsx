@@ -1,19 +1,28 @@
-import { ModeToggle } from "@/components/theme-toggle";
-import { GithubIcon, TwitterIcon, HexagonIcon } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import Search from "./search/search";
-import Anchor from "./anchor";
-import { SheetLeftbar } from "./leftbar";
-import { page_routes } from "@/lib/routes-config";
-import { SheetClose } from "@/components/ui/sheet";
+"use client"
+
+import Link from "next/link"
+import { GithubIcon, HexagonIcon } from "lucide-react"
+
+import { page_routes } from "@/lib/routes-config"
+import { SheetClose } from "@/components/ui/sheet"
+import { ModeToggle } from "@/components/theme-toggle"
+
+import Anchor from "./anchor"
+import { SheetLeftbar } from "./leftbar"
+import Search from "./search/search"
+import { buttonVariants } from "./ui/button"
+import { useWeb3Auth } from "./web3auth/web3auth-context"
 
 export const NAVLINKS = [
   {
-    title: "Documentation",
+    title: "Nillion Example",
     href: `/docs${page_routes[0].href}`,
   },
-];
+  {
+    title: "Dashboard",
+    href: `/admin`,
+  },
+]
 
 export function Navbar() {
   return (
@@ -36,42 +45,40 @@ export function Navbar() {
             <Search />
             <div className="flex">
               <Link
-                href="https://github.com/bertrandbuild/template-next-web3"
+                href="https://github.com/bertrandbuild/teckdoc"
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
                 <GithubIcon className="size-[1.1rem]" />
               </Link>
-              <Link
-                href="#"
-                className={buttonVariants({
-                  variant: "ghost",
-                  size: "icon",
-                })}
-              >
-                <TwitterIcon className="size-[1.1rem]" />
-              </Link>
               <ModeToggle />
             </div>
           </div>
+          <AuthMenu />
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
       <HexagonIcon className="text-muted-foreground size-7 fill-current" />
-      <h2 className="text-md font-bold">Smart Docs</h2>
+      <h2 className="text-md font-bold">TeckDoc</h2>
     </Link>
-  );
+  )
 }
 
 export function NavMenu({ isSheet = false }) {
+  const { isLoggedIn, isAdmin } = useWeb3Auth()
+
   return (
     <>
       {NAVLINKS.map((item) => {
+        if (item.title === "Dashboard" && (!isLoggedIn || !isAdmin)) {
+          return null
+        }
+
         const Comp = (
           <Anchor
             key={item.title + item.href}
@@ -81,15 +88,66 @@ export function NavMenu({ isSheet = false }) {
           >
             {item.title}
           </Anchor>
-        );
+        )
         return isSheet ? (
           <SheetClose key={item.title + item.href} asChild>
             {Comp}
           </SheetClose>
         ) : (
           Comp
-        );
+        )
       })}
     </>
-  );
+  )
+}
+
+export function AuthMenu() {
+  const { isLoggedIn, web3auth, setProvider, setIsLoggedIn } = useWeb3Auth()
+
+  const login = async () => {
+    try {
+      if (!web3auth) {
+        console.error("Web3Auth is not initialized")
+        return
+      }
+      const web3authProvider = await web3auth.connect() // Connect with Web3Auth
+      setProvider(web3authProvider)
+      setIsLoggedIn(true)
+    } catch (error) {
+      console.error("Login failed", error)
+    }
+  }
+
+  const logout = async () => {
+    try {
+      if (!web3auth) {
+        console.error("Web3Auth is not initialized")
+        return
+      }
+      await web3auth.logout() // Logout in Web3Auth
+      setProvider(null)
+      setIsLoggedIn(false)
+    } catch (error) {
+      console.error("Logout failed", error)
+    }
+  }
+  return (
+    <>
+      {isLoggedIn ? (
+        <button
+          onClick={logout}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Logout
+        </button>
+      ) : (
+        <button
+          onClick={login}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Login with Web3
+        </button>
+      )}
+    </>
+  )
 }

@@ -1,0 +1,58 @@
+---
+title: Install Nillion
+---
+
+Install the Nillion SDK, including the **`nada`** tool you'll use to create a Nada project and the **`nillion-devnet`** tool you'll use to spin up a local Nillion network.
+
+## Use nilup to install the Nillion SDK
+
+#### 1. Install [nilup](/nilup), the [Nillion SDK tool](/nillion-sdk-and-tools#nillion-sdk-tools) installer and version manager.
+
+<Note title="info" type="note">
+    Nillion SDK binaries are available for [Linux and macOS platforms](/limitations#platforms). For Windows installation, make sure to follow our [Windows developer environment setup](/installation#windows-guide) guide ahead of installing binaries.
+</Note>
+
+_For the security-conscious, please download the `install.sh` script, so that you can inspect how
+it works, before piping it to `bash`._
+
+```bash
+curl https://nilup.nilogy.xyz/install.sh | bash
+```
+
+Close your terminal. Open a new terminal and confirm global `nilup` tool installation
+
+```bash
+nilup -V
+
+// Your output should be similar to the below
+nilup 22c84830fff3c86beec27a8cb6353d45e7bfb8a4
+```
+
+#### 2. Use [nilup](/nilup) to install the latest version of the Nillion SDK.
+
+```bash
+nilup install latest
+nilup use latest
+nilup init
+```
+
+Optionally enable `nilup` telemetry, providing your Ethereum wallet address. We collect this data to understand how the software is used, and to better assist you in case of issues. In doing this, you consent to the collection of telemetry data by the Nillion Network. While we will not collect any personal information, we still recommend using a new wallet address that cannot be linked to your identity by any third party.
+For more information, check out our [privacy policy](https://nillion.com/privacy/).
+
+```bash
+nilup instrumentation enable --wallet <your-eth-wallet-address>
+```
+
+Close your terminal. Open a new terminal and confirm global Nillion tool installation with
+
+```bash
+nillion -V
+
+// Your output should be similar to the below
+nilup 22c84830fff3c86beec27a8cb6353d45e7bfb8a4
+```
+
+
+## Next steps
+
+✅ You're off to a great start! Now that you have installed the Nillion SDK and Tools, you have everything you need to create a Nada project.

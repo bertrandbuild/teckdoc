@@ -4,6 +4,8 @@
 node_modules
 .pnp
 .pnp.js
+venv
+lib
 
 # testing
 coverage
@@ -34,3 +36,4 @@ yarn-error.log*
 
 .contentlayer
 .env
+.vercel

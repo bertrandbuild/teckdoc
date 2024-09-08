@@ -10,13 +10,14 @@ Thumbs.db
 # Dependencies
 node_modules/
 vendor/
+lib/
 
-# D
+# 
 dist/
 build/
 bin/
 
-# Fichiers de configuration spécifiques à l'IDE
+# IDE
 .idea/
 *.sublime-workspace
 *.sublime-project
@@ -29,29 +30,28 @@ bin/
 *.suo
 *.sln.docstates
 
-# Fichiers de package et de verrouillage (dépend du gestionnaire de package utilisé)
-package-lock.json
+# package
 yarn.lock
 composer.lock
 Gemfile.lock
 Pipfile.lock
 
-# Fichiers de log
+# log
 *.log
 npm-debug.log*
 yarn-error.log*
 
-# Fichiers de certificat
+# certificat
 *.pem
 *.cert
 *.key
 
-# Dossiers et fichiers de configuration d'environnement
+# environnement
 .env
 .env.local
 .env.*.local
 
-# Fichiers de base de données
+# Database
 *.sqlite
 *.sqlite3
 *.db
