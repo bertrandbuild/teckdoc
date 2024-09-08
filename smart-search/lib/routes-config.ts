@@ -175,7 +175,7 @@ function getRecurrsiveAllLinks(node: EachRoute): {
 }
 
 // Updated function to determine which routes to use based on selectedDemo
-function getActiveRoutes(): EachRoute[] {
+export function getActiveRoutes(): EachRoute[] {
   const selectedDemo = typeof window !== 'undefined' ? localStorage.getItem('selectedDemo') : null;
   console.log(selectedDemo)
   

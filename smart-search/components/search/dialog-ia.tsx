@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation'
 
 export default function DialogIA({ searchedInput }: { searchedInput: string }) {
   const { startChat, requestHash, llmResult, setLlmResult } = useChat()
-  const { updateContext, numberRequests } = useContext(GlobalContext)
+  const { updateContext, numberRequests, selectedDemo } = useContext(GlobalContext)
   const { isLoggedIn } = useWeb3Auth()
   const isOverLimit = (!isLoggedIn && numberRequests >= MAX_REQUESTS_NOT_LOGGED) || (isLoggedIn && numberRequests >= MAX_REQUESTS_LOGGED)
   const [loading, setLoading] = useState(false)
@@ -117,7 +117,7 @@ export default function DialogIA({ searchedInput }: { searchedInput: string }) {
                 style={{ padding: '1px 5px', borderRadius: '5px' }}
                 onClick={() => {
                   updateContext("isSearchOpen", false);
-                  router.push(`/docs/${item.href}`);
+                  router.push(`/${selectedDemo}${item.href}`);
                 }}
               >
                 {item.title}

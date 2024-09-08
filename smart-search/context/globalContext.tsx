@@ -38,7 +38,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const _saveToLocalStorage = (key: string, value: unknown) => {
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
       } catch (error) {
         console.error(`Failed to save ${key} to localStorage:`, error);
       }
