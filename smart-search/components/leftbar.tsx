@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useContext } from 'react';
-import { BLOCKLESS_ROUTES, NILLION_ROUTES, ROUTES } from "@/lib/routes-config";
+import { AVAIL_ROUTES, BLOCKLESS_ROUTES, NILLION_ROUTES, ROUTES } from "@/lib/routes-config";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
@@ -65,6 +65,8 @@ function Menu({ isSheet = false }) {
     routes = NILLION_ROUTES
   } else if (selectedDemo === 'blockless') {
     routes = BLOCKLESS_ROUTES
+  } else if (selectedDemo === 'avail') {
+    routes = AVAIL_ROUTES
   }
   
   return (

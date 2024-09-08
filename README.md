@@ -1,20 +1,19 @@
-# Intelligent Documentation : TekDoc
+# Intelligent Documentation : TeckDoc
 
 🌐 https://teckdoc-smart-search.vercel.app
 
 ## Description
 
-This project is an intelligent documentation site that allows users to search for documents using automated protocols and tools such as Galadriel and Envio for adding analyses. It also provides user authentication via Web3Auth and guarantees secure processing of user requests thanks to integrated anti-spam protection.
+TeckDoc is a web3 powered documentation using token gated AI. 
 
 ## Features
 
-- **Create Documentation:** Allow users to search documentation using the intelligent system.
+- **Clean Documentation:** clean and easy to read design for developers.
 - **Web3Auth Login:** Secure user authentication and login process via Web3Auth.
-- **Galadriel Protocol:** Automate the creation of RAG (Red, Amber, Green) reports.
-- **Anti-Spam First Agent:** Initial agent to verify and filter spam from user requests.
-- **Second Agent for Request Handling:** Processes legitimate requests and passes them through the system.
-- **Envio Protocol for Analytics:** Adds analytics to processed data and enhances insights.
-- **View Documentation:** Users can view the generated documentation within the platform.
+- **Galadriel Protocol:** Automate the creation of RAG (Retrieval Augmented Generation) reports.
+- **Anti-Spam Agent:** Multi agent architecture to verify and filter spam from user requests.
+- **Envio Protocol for Analytics:** Adds analytics to learn from user interactions.
+- **Multiple Demos:** Multiple demos to choose from: Nillions, Blockless, Avail ...
 
 ## Flow Overview
 
@@ -32,7 +31,6 @@ This project is an intelligent documentation site that allows users to search fo
 ## Getting Started
 
 ### Prerequisites
-Node.js (version X.X.X or above)
 npm
 
 ### Installation
@@ -63,6 +61,3 @@ npm start
 
 The app will be running on `http://localhost:3000`.
 
-## Contact
-
-For any questions or support, feel free to contact us at your-email@example.com.

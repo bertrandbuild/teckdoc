@@ -17,6 +17,11 @@ import { useContext } from "react"
 
 export const NAVLINKS = [
   {
+    title: "Avail",
+    slug: "avail",
+    href: `/avail/introduction-to-avail`,
+  },
+  {
     title: "Blockless",
     slug: "blockless",
     href: `/blockless/welcome/welcome`,
