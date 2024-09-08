@@ -1,4 +1,7 @@
-import { ROUTES } from "@/lib/routes-config";
+"use client"
+
+import React, { useContext } from 'react';
+import { BLOCKLESS_ROUTES, NILLION_ROUTES, ROUTES } from "@/lib/routes-config";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
@@ -12,6 +15,7 @@ import { Button } from "./ui/button";
 import { AlignLeftIcon } from "lucide-react";
 import { DialogTitle } from "./ui/dialog";
 import SubLink from "./sublink";
+import { GlobalContext } from "@/context/globalContext";
 
 export function Leftbar() {
   return (
@@ -52,12 +56,23 @@ export function SheetLeftbar() {
 }
 
 function Menu({ isSheet = false }) {
+  const globalContext = useContext(GlobalContext);
+  const selectedDemo = globalContext ? globalContext.selectedDemo : 'docs'; // Default to 'nillion' if context is not available
+  let routes = ROUTES
+  if (selectedDemo === 'docs') {
+    routes = ROUTES
+  } else if (selectedDemo === 'nillion') {
+    routes = NILLION_ROUTES
+  } else if (selectedDemo === 'blockless') {
+    routes = BLOCKLESS_ROUTES
+  }
+  
   return (
     <div className="mt-5 flex flex-col gap-3.5">
-      {ROUTES.map((item, index) => {
+      {routes.map((item, index) => {
         const modifiedItems = {
           ...item,
-          href: `/docs${item.href}`,
+          href: `/${selectedDemo}${item.href}`,
           level: 0,
           isSheet,
         };

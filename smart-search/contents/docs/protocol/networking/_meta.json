@@ -1,0 +1,20 @@
+{
+	"index": {
+		"title": "Overview"
+	},
+	"selection": {
+		"title": "Node Selection"
+	},
+	"distribution": {
+		"title": "Randomized Distribution"
+	},
+	"execution": {
+		"title": "Deployment and Execution"
+	},
+	"consensus": {
+		"title": "Dynamic Consensus"
+	},
+	"communication": {
+		"title": "Communication"
+	}
+}
