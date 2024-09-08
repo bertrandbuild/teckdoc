@@ -7,6 +7,7 @@ import React, { createContext, useState, useEffect } from "react";
 interface IGlobalContextType {
   isSearchOpen: boolean;
   numberRequests: number;
+  selectedDemo: string;
   updateContext: (key: string, value: unknown) => void;
 }
 
@@ -14,12 +15,14 @@ interface IGlobalContextType {
 const initialLocalStorageConfig = {
   isSearchOpen: false,
   numberRequests: 0,
+  selectedDemo: "nillion",
 };
 
 // Default context values
 const defaultContext: IGlobalContextType = {
   isSearchOpen: false,
   numberRequests: 0,
+  selectedDemo: "nillion",
   updateContext: () => {},
 };
 
@@ -35,7 +38,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const _saveToLocalStorage = (key: string, value: unknown) => {
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
       } catch (error) {
         console.error(`Failed to save ${key} to localStorage:`, error);
       }

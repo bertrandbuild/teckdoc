@@ -19,7 +19,7 @@ import { GlobalContext } from "@/context/globalContext";
 
 export default function Search() {
   const [searchedInput, setSearchedInput] = useState("");
-  const { isSearchOpen, updateContext } = useContext(GlobalContext);
+  const { isSearchOpen, selectedDemo, updateContext } = useContext(GlobalContext);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -35,10 +35,7 @@ export default function Search() {
     };
   }, [updateContext]);
 
-  const filteredResults = useMemo(
-    () => advanceSearch(searchedInput.trim()),
-    [searchedInput]
-  );
+  const filteredResults = advanceSearch(searchedInput.trim())
 
   return (
     <div>
@@ -95,7 +92,7 @@ export default function Search() {
                         "flex w-full items-center gap-2.5 rounded-sm px-3 text-[15px] hover:bg-neutral-100 dark:hover:bg-neutral-900",
                         paddingClass
                       )}
-                      href={`/docs${item.href}`}
+                      href={`/${selectedDemo}${item.href}`}
                     >
                       <div
                         className={cn(

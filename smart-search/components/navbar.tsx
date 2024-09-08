@@ -12,14 +12,28 @@ import { SheetLeftbar } from "./leftbar"
 import Search from "./search/search"
 import { buttonVariants } from "./ui/button"
 import { useWeb3Auth } from "./web3auth/web3auth-context"
+import { GlobalContext } from "@/context/globalContext"
+import { useContext } from "react"
 
 export const NAVLINKS = [
   {
-    title: "Nillion Example",
-    href: `/docs${page_routes[0].href}`,
+    title: "Avail",
+    slug: "avail",
+    href: `/avail/introduction-to-avail`,
   },
   {
-    title: "Dashboard",
+    title: "Blockless",
+    slug: "blockless",
+    href: `/blockless/welcome/welcome`,
+  },
+  {
+    title: "Nillion",
+    slug: "nillion",
+    href: `/nillion${page_routes[0].href}`,
+  },
+  {
+    title: "Admin",
+    slug: "admin",
     href: `/admin`,
   },
 ]
@@ -71,11 +85,12 @@ export function Logo() {
 
 export function NavMenu({ isSheet = false }) {
   const { isLoggedIn, isAdmin } = useWeb3Auth()
+  const { updateContext } = useContext(GlobalContext)
 
   return (
     <>
       {NAVLINKS.map((item) => {
-        if (item.title === "Dashboard" && (!isLoggedIn || !isAdmin)) {
+        if (item.title === "Admin" && (!isLoggedIn || !isAdmin)) {
           return null
         }
 
@@ -85,6 +100,10 @@ export function NavMenu({ isSheet = false }) {
             activeClassName="text-black dark:text-white font-semibold"
             absolute
             href={item.href}
+            onClick={() => {
+              updateContext("selectedDemo", item.slug);
+              console.log(item.slug)
+            }}
           >
             {item.title}
           </Anchor>

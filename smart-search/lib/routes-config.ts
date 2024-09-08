@@ -11,6 +11,133 @@ export const ROUTES: EachRoute[] = [
     href: "/welcome",
     noLink: true,
     items: [
+      { title: "Welcome to our Docs", href: "/welcome" },
+      {
+        title: "Quick Start Guide",
+        href: "/quick-start-guide",
+        items: [
+          { title: "Install", href: "/quickstart-install" },
+        ],
+      },
+    ],
+  },
+]
+
+export const BLOCKLESS_ROUTES: EachRoute[] = [
+  {
+    title: "Welcome",
+    href: "/welcome",
+    noLink: true,
+  },
+  {
+    title: "Network",
+    href: "/network",
+    items: [
+      {
+        title: "Economics",
+        href: "/economics",
+        noLink: true,
+        items: [
+          { title: "Token-Economics", href: "/token-economics" },
+        ],
+      },
+      {
+        title: "Functions Workflow",
+        href: "/functions-workflow",
+      },
+    ],
+  },
+  {
+    title: "Protocol",
+    href: "/protocol",
+    items: [
+      { title: "Extension", href: "/extension" },
+      { title: "Core Concepts", href: "/core-concepts" },
+    ],
+  },
+  {
+    title: "Developer tools",
+    href: "/developer-tools",
+    items: [
+      { title: "Dashboard", href: "/dashboard" },
+      {
+        title: "Cli",
+        href: "/cli",
+        noLink: true,
+        items: [
+          { title: "Quickstart", href: "/quick-start" },
+        ],
+      },
+      {
+        title: "Sdks",
+        href: "/sdks",
+        noLink: true,
+        items: [
+          { title: "AssemblyScript", href: "/assemblyscript" },
+        ],
+      },
+    ],
+  },
+]
+
+export const AVAIL_ROUTES: EachRoute[] = [
+  {
+    title: "Introduction to Avail",
+    href: "/introduction-to-avail",
+    noLink: true,
+  },
+  {
+    title: "Learn about Avail",
+    href: "/learn-about-avail",
+    noLink: true,
+    items: [
+      { title: "Consensus", href: "/consensus" },
+      { title: "EIP-4844", href: "/eip-4844" },
+    ],
+  },
+  {
+    title: "Build with Avail",
+    href: "/build-with-avail",
+    noLink: true,
+    items: [
+      { title: "Validium", href: "/validium" },
+      { title: "Optimium", href: "/optimium" },
+      { title: "Soveriegn-rollups", href: "/sovereign-rollups" },
+    ],
+  },
+  {
+    title: "Network",
+    href: "/network",
+    items: [
+      { title: "Economics", href: "/economics" },
+      { title: "Functions Workflow", href: "/functions-workflow" },
+      { title: "Tutorials", href: "/tutorials" },
+    ],
+  },
+  {
+    title: "Operate a node",
+    href: "/operate-a-node",
+  },
+  {
+    title: "The Avail Trinity",
+    href: "/the-avail-trinity",
+  },
+  {
+    title: "Clash of nodes",
+    href: "/clash-of-nodes",
+  },
+  {
+    title: "Glossary",
+    href: "/glossary",
+  },
+]
+
+export const NILLION_ROUTES: EachRoute[] = [
+  {
+    title: "Welcome",
+    href: "/welcome",
+    noLink: true,
+    items: [
       { title: "Welcome to Nillion's Docs", href: "/welcome-nillion" },
       {
         title: "Quick Start Guide",
@@ -32,7 +159,7 @@ export const ROUTES: EachRoute[] = [
         title: "Multi Party Computation",
         href: "/multi-party-computation",
       },
-      { title: "Network", href: "/network" },
+      // { title: "Network", href: "/network" },
       { title: "Nillions MPC Protocol", href: "/nillions-mpc-protocol" },
       { title: "What is Nillion", href: "/what-is-nillion" },
     ],
@@ -99,5 +226,22 @@ function getRecurrsiveAllLinks(node: EachRoute): {
   return allPages
 }
 
-// Generate a flat list of all pages by mapping over the ROUTES array.
-export const page_routes = ROUTES.map((it) => getRecurrsiveAllLinks(it)).flat()
+// Updated function to determine which routes to use based on selectedDemo
+export function getActiveRoutes(): EachRoute[] {
+  const selectedDemo = typeof window !== 'undefined' ? localStorage.getItem('selectedDemo') : null;
+  console.log(selectedDemo)
+  
+  if (selectedDemo === 'docs') {
+    return ROUTES;
+  } else if (selectedDemo === 'nillion') {
+    return NILLION_ROUTES;
+  } else if (selectedDemo === 'blockless') {
+    return BLOCKLESS_ROUTES;
+  }
+  
+  // Default to NILLION_ROUTES if selectedDemo doesn't match
+  return NILLION_ROUTES;
+}
+
+// Update page_routes to use the dynamic routes
+export const page_routes = getActiveRoutes().map((it) => getRecurrsiveAllLinks(it)).flat()
