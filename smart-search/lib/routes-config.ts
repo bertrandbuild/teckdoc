@@ -80,6 +80,58 @@ export const BLOCKLESS_ROUTES: EachRoute[] = [
   },
 ]
 
+export const AVAIL_ROUTES: EachRoute[] = [
+  {
+    title: "Introduction to Avail",
+    href: "/introduction-to-avail",
+    noLink: true,
+  },
+  {
+    title: "Learn about Avail",
+    href: "/learn-about-avail",
+    noLink: true,
+    items: [
+      { title: "Consensus", href: "/consensus" },
+      { title: "EIP-4844", href: "/eip-4844" },
+    ],
+  },
+  {
+    title: "Build with Avail",
+    href: "/build-with-avail",
+    noLink: true,
+    items: [
+      { title: "Validium", href: "/validium" },
+      { title: "Optimium", href: "/optimium" },
+      { title: "Soveriegn-rollups", href: "/sovereign-rollups" },
+    ],
+  },
+  {
+    title: "Network",
+    href: "/network",
+    items: [
+      { title: "Economics", href: "/economics" },
+      { title: "Functions Workflow", href: "/functions-workflow" },
+      { title: "Tutorials", href: "/tutorials" },
+    ],
+  },
+  {
+    title: "Operate a node",
+    href: "/operate-a-node",
+  },
+  {
+    title: "The Avail Trinity",
+    href: "/the-avail-trinity",
+  },
+  {
+    title: "Clash of nodes",
+    href: "/clash-of-nodes",
+  },
+  {
+    title: "Glossary",
+    href: "/glossary",
+  },
+]
+
 export const NILLION_ROUTES: EachRoute[] = [
   {
     title: "Welcome",
