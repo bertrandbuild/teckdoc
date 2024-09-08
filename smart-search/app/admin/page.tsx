@@ -12,6 +12,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
+// @ts-expect-error graphql-request is having trouble with TS but it works
 import { gql, request } from "graphql-request"
 import { Line } from "react-chartjs-2"
 
