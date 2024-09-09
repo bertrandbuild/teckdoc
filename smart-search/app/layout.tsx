@@ -6,6 +6,8 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Theme } from '@radix-ui/themes';
+import { Toaster } from 'react-hot-toast';
+
 
 import "./globals.css"
 import '@radix-ui/themes/styles.css';
@@ -40,6 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   <Navbar />
                   <main className="mx-auto h-auto w-[85vw] sm:container">{children}</main>
                   <Footer />
+                  <Toaster />
                 </Web3AuthProvider>
               </GlobalProvider>
             </Theme>
