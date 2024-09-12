@@ -23,8 +23,12 @@ $ forge test
 ### Deploy
 
 ```shell
-forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args 0x0352b37E5680E324E804B5A6e1AddF0A064E201D
+forge create --rpc-url https://devnet.galadriel.com/ --gas-price 1000000000 --gas-limit 3000000 --private-key <your_private_key> src/ChatSearchAI.sol:ChatSearchAI --constructor-args <ORACLE_ADDRESS> <RAG_CID>
 ```
+
+- ORACLE_ADDRESS is mandatoray and can be the oracle address: `0x0352b37E5680E324E804B5A6e1AddF0A064E201D` (this is the non TEE dev oracle from galadriel)
+- RAG_CID is the CID of the RAG you deployed in the [RAG README](./smart-search/utils/rag-tools/README.md) and can be setted later with a query with the function `setKnowledgeBase()`.
+
 
 ### Generate ABIs
 

@@ -1,39 +1,30 @@
-# Intelligent Documentation : TeckDoc
+# TeckDoc - The web3 x AI documentation
 
-🌐 https://teckdoc-smart-search.vercel.app
+🌐 Demo: https://teckdoc-smart-search.vercel.app
 
 ## Description
 
-TeckDoc is a web3 powered documentation using token gated AI. 
+Teckdoc is a simple open source documentation using decentralized AI to reduce the cost of web2 alternatives.
+It also includes an admin dashboard to learn from user interactions.
+
+
+
+https://github.com/user-attachments/assets/76ed0c5d-26aa-43e0-a12e-6bcdae51e5f3
+
+
 
 ## Features
 
-- **Clean Documentation:** clean and easy to read design for developers.
-- **Web3Auth Login:** Secure user authentication and login process via Web3Auth.
-- **Galadriel Protocol:** Automate the creation of RAG (Retrieval Augmented Generation) reports.
-- **Anti-Spam Agent:** Multi agent architecture to verify and filter spam from user requests.
-- **Envio Protocol for Analytics:** Adds analytics to learn from user interactions.
+- **Web3Auth Login:** 3 free queries and 10 free credits for logged in users.
+- **Admin dashboard:** Using Envio Protocol to learn from user interactions.
+- **Galadriel Protocol:** Onchain AI with RAG and an anti-spam agent.
 - **Multiple Demos:** Multiple demos to choose from: Nillions, Blockless, Avail ...
 
 ## Flow Overview
+![schema](./readme-assets/schema.png)
 
-```md
-(Create the documentation) ---> (Galadriel Protocol: RAG Creation)
-                    (Web3Auth Login) ---> (User Requests)
-                                                        |
-                    (Galadriel Protocol First Agent: Anti-Spam)
-                                                        |
-                     (Second Agent: Request Handling) ---> (Envio Protocol: Analytics)
-                                                        |
-                           (Intelligent Documentation Site) ---> (View in user)
-```
 
 ## Getting Started
-
-### Prerequisites
-npm
-
-### Installation
 
 1) Clone the repository:
 
@@ -41,19 +32,24 @@ npm
 git clone https://github.com/bertrandbuild/teckdoc.git
 ```
 
-2) Navigate to the project directory:
+2) Install your .mdx files in the `./smart-search/contents/docs` folder
+It requires manual update of the links in the `./smart-search/app` folder and the routes in the `./smart-search/lib/routes-config.ts` file
 
+3) Deploy the RAG 
+Follow the instructions in the [RAG README](./smart-search/utils/rag-tools/README.md)
+
+4) Deploy the contracts
+Follow the instructions in the [contracts README](./smart-search/contracts/README.md)
+
+5) Fill .env with your variables
+
+6) Install dependencies:
 ```sh
 cd teckdoc
-```
-
-3) Install dependencies:
-
-```sh
 npm install
 ```
 
-4) Running the App
+7) Running the App
 
 ```sh
 npm start
@@ -61,3 +57,6 @@ npm start
 
 The app will be running on `http://localhost:3000`.
 
+## Support
+
+If you need help, please contact me on twitter [@bertrandbuild](https://x.com/bertrandbuild)
