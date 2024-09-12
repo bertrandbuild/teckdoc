@@ -7,7 +7,7 @@
 Teckdoc is a simple open source documentation using decentralized AI to reduce the cost of web2 alternatives.
 It also includes an admin dashboard to learn from user interactions.
 
-![video](./readme-assets/high.mp4)
+![video](./readme-assets/med.mp4)
 
 ## Features
 
